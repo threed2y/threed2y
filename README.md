@@ -1,5 +1,5 @@
 # 💫 About Me:
-I use arch, btw.
+I USE ARCH, BTW.
 
 
 ## 🌐 Socials:
