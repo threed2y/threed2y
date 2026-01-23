@@ -1,6 +1,5 @@
 ---
 I use arch,btw.
-everything anywhere all at once
 ---
 
 <div style="display: flex; justify-content: space-between;">
