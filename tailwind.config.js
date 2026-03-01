@@ -5,32 +5,43 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Syne"', 'sans-serif'],
-        body: ['"DM Sans"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        display: ['"Shippori Mincho"', 'serif'],
+        body: ['"Crimson Pro"', 'serif'],
+        mono: ['"Zen Kaku Gothic New"', 'sans-serif'],
       },
       colors: {
-        ink: {
-          50: '#f0f0f5',
-          100: '#e0e0eb',
-          900: '#0a0a0f',
-          800: '#12121a',
-          700: '#1c1c28',
-          600: '#2a2a3d',
+        rice: {
+          50: '#faf8f3',
+          100: '#f2ede0',
+          200: '#e8dfc8',
+          300: '#d4c4a0',
         },
-        acid: {
-          DEFAULT: '#b8ff3c',
-          dim: '#8fcc22',
+        sumi: {
+          900: '#0d0b08',
+          800: '#161310',
+          700: '#211d18',
+          600: '#2e2820',
+          500: '#3d3530',
+          400: '#5a5048',
         },
-        ember: '#ff5e3a',
+        blood: '#8b1a1a',
+        rust: '#7a3b1e',
+        ash: '#9e9488',
+        gold: '#c9a84c',
       },
       animation: {
-        'blink': 'blink 1s step-end infinite',
+        'flicker': 'flicker 4s ease-in-out infinite',
+        'brush': 'brush 3s ease-in-out infinite',
       },
       keyframes: {
-        blink: {
+        flicker: {
           '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0' },
+          '33%': { opacity: '0.85' },
+          '66%': { opacity: '0.95' },
+        },
+        brush: {
+          '0%, 100%': { opacity: '0.5' },
+          '50%': { opacity: '1' },
         }
       }
     },
