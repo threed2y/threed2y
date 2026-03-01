@@ -2,7 +2,7 @@
   "name": "rupesh-portfolio",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://threed2y.github.io/rupesh-portfolio",
+  "homepage": "https://threed2y.github.io/threed2y",
   "type": "module",
   "scripts": {
     "dev": "vite",
