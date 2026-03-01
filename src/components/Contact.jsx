@@ -4,98 +4,101 @@ import { personal } from '../data';
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 px-6 bg-ink-800/30">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-14"
-        >
-          <p className="font-mono text-xs text-acid mb-3">// say hello</p>
-          <h2 className="section-heading">Contact<span className="text-acid">.</span></h2>
+    <section id="contact" className="py-28 px-6 relative" style={{ background: 'linear-gradient(180deg, #0d0b08 0%, #100e0b 100%)' }}>
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none opacity-[0.025]"
+        style={{ fontSize: '25rem', fontFamily: '"Shippori Mincho"', fontWeight: 800, color: '#c9a84c', lineHeight: 1 }}
+      >縁</div>
+
+      <div className="max-w-4xl mx-auto relative">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-px bg-blood" />
+            <span className="chapter-label">Final Chapter — Connection</span>
+          </div>
+          <h2 className="brush-heading text-5xl md:text-6xl">
+            Let's<br />
+            <span className="text-gold">Connect</span>
+          </h2>
+          <p className="font-display text-xs text-sumi-500 tracking-[0.3em] mt-2">縁 — En (Fate / Connection)</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <p className="font-body text-ink-100 text-base leading-relaxed mb-8">
-              I'm actively looking for internships, freelance projects, and full-time roles in data science and analytics. 
-              Whether you have an interesting problem or just want to connect — my inbox is always open.
+        <div className="grid md:grid-cols-2 gap-12 items-start">
+          {/* Left */}
+          <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <p className="font-body text-lg text-ash italic leading-relaxed mb-10 border-l-2 border-blood/50 pl-5">
+              "Every great journey begins with a single message. I am actively seeking internships,
+              collaborations, and full-time roles in data science and analytics."
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {[
-                { icon: Mail, label: personal.email, href: `mailto:${personal.email}` },
-                { icon: Phone, label: personal.phone, href: `tel:${personal.phone}` },
-                { icon: MapPin, label: personal.location, href: null },
-                { icon: Github, label: 'github.com/threed2y', href: personal.github },
-              ].map(({ icon: Icon, label, href }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-acid/10 border border-acid/20 flex items-center justify-center flex-shrink-0">
-                    <Icon size={15} className="text-acid" />
+                { Icon: Mail, label: personal.email, href: `mailto:${personal.email}` },
+                { Icon: Phone, label: personal.phone, href: `tel:${personal.phone}` },
+                { Icon: MapPin, label: personal.location, href: null },
+                { Icon: Github, label: 'github.com/threed2y', href: personal.github },
+              ].map(({ Icon, label, href }) => (
+                <div key={label} className="flex items-center gap-4 group">
+                  <div className="w-10 h-10 flex items-center justify-center flex-shrink-0"
+                    style={{ border: '1px solid rgba(139,26,26,0.3)', background: 'rgba(139,26,26,0.06)' }}
+                  >
+                    <Icon size={15} className="text-blood" />
                   </div>
                   {href ? (
-                    <a
-                      href={href}
-                      target={href.startsWith('http') ? '_blank' : undefined}
-                      rel="noopener noreferrer"
-                      className="font-body text-sm text-ink-100 hover:text-acid transition-colors"
+                    <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+                      className="font-body text-sm text-ash hover:text-rice-100 transition-colors group-hover:text-rice-100"
                     >
                       {label}
                     </a>
                   ) : (
-                    <span className="font-body text-sm text-ink-100">{label}</span>
+                    <span className="font-body text-sm text-ash">{label}</span>
                   )}
                 </div>
               ))}
             </div>
+
+            <div className="mt-10 flex gap-4">
+              <a href={personal.github} target="_blank" rel="noopener noreferrer" className="ink-btn text-sm">GitHub ↗</a>
+              <a href={personal.huggingface} target="_blank" rel="noopener noreferrer" className="ink-btn text-sm">HuggingFace ↗</a>
+            </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                window.location.href = `mailto:${personal.email}`;
-              }}
-              className="card space-y-4"
+          {/* Right — contact form */}
+          <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <form onSubmit={e => { e.preventDefault(); window.location.href = `mailto:${personal.email}`; }}
+              className="ink-card panel-border p-7 space-y-5"
+              style={{ clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px))' }}
             >
+              <div className="absolute top-0 left-0 w-0 h-0.5 bg-blood group-hover:w-full transition-all duration-700" />
+
+              {[
+                { id: 'name', label: '名前 — Name', type: 'text', placeholder: 'Your name' },
+                { id: 'email', label: 'メール — Email', type: 'email', placeholder: 'you@example.com' },
+              ].map(f => (
+                <div key={f.id}>
+                  <label className="chapter-label block mb-2">{f.label}</label>
+                  <input type={f.type} required
+                    className="w-full bg-sumi-800 px-4 py-3 text-sm font-body text-rice-100 placeholder-sumi-400 focus:outline-none transition-colors"
+                    style={{ border: '1px solid rgba(94,80,72,0.4)' }}
+                    placeholder={f.placeholder}
+                    onFocus={e => e.target.style.borderColor = 'rgba(139,26,26,0.6)'}
+                    onBlur={e => e.target.style.borderColor = 'rgba(94,80,72,0.4)'}
+                  />
+                </div>
+              ))}
+
               <div>
-                <label className="font-mono text-xs text-ink-100 mb-1.5 block">name</label>
-                <input
-                  type="text"
-                  required
-                  className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-3 text-sm font-body text-ink-50 placeholder-ink-100 focus:outline-none focus:border-acid/60 transition-colors"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="font-mono text-xs text-ink-100 mb-1.5 block">email</label>
-                <input
-                  type="email"
-                  required
-                  className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-3 text-sm font-body text-ink-50 placeholder-ink-100 focus:outline-none focus:border-acid/60 transition-colors"
-                  placeholder="you@example.com"
-                />
-              </div>
-              <div>
-                <label className="font-mono text-xs text-ink-100 mb-1.5 block">message</label>
-                <textarea
-                  rows={4}
-                  required
-                  className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-3 text-sm font-body text-ink-50 placeholder-ink-100 focus:outline-none focus:border-acid/60 transition-colors resize-none"
+                <label className="chapter-label block mb-2">言葉 — Message</label>
+                <textarea rows={4} required
+                  className="w-full bg-sumi-800 px-4 py-3 text-sm font-body text-rice-100 placeholder-sumi-400 focus:outline-none resize-none transition-colors"
+                  style={{ border: '1px solid rgba(94,80,72,0.4)' }}
                   placeholder="What's on your mind?"
+                  onFocus={e => e.target.style.borderColor = 'rgba(139,26,26,0.6)'}
+                  onBlur={e => e.target.style.borderColor = 'rgba(94,80,72,0.4)'}
                 />
               </div>
-              <button type="submit" className="btn-primary w-full">
-                Send Message →
+
+              <button type="submit" className="ink-btn-blood w-full text-sm font-display tracking-widest">
+                SEND MESSAGE — 送信
               </button>
             </form>
           </motion.div>

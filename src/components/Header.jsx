@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { personal } from '../data';
 
 const navLinks = [
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Projects', href: '#projects', jp: '作品' },
+  { label: 'Skills', href: '#skills', jp: '技' },
+  { label: 'Experience', href: '#experience', jp: '道' },
+  { label: 'Contact', href: '#contact', jp: '連絡' },
 ];
 
 export default function Header() {
@@ -20,17 +20,24 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-ink-900/90 backdrop-blur-md border-b border-ink-700'
+          ? 'bg-sumi-900/95 backdrop-blur-sm border-b border-sumi-600/40'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <a href="#top" className="font-display font-bold text-xl text-ink-50 flex items-center gap-2">
-          <span className="w-7 h-7 bg-acid rounded-md flex items-center justify-center text-ink-900 text-sm font-black">R</span>
-          <span className="hidden sm:block">Rupesh<span className="text-acid">.</span></span>
+        <a href="#top" className="flex items-center gap-3 group">
+          <div className="relative w-8 h-8">
+            <div className="absolute inset-0 bg-blood opacity-80 rotate-3 group-hover:rotate-6 transition-transform" />
+            <div className="absolute inset-0 flex items-center justify-center font-display font-bold text-rice-50 text-sm z-10">
+              武
+            </div>
+          </div>
+          <span className="font-display font-bold text-rice-100 tracking-wide hidden sm:block">
+            Rupesh<span className="text-gold">.</span>
+          </span>
         </a>
 
         {/* Desktop Nav */}
@@ -39,44 +46,43 @@ export default function Header() {
             <a
               key={l.label}
               href={l.href}
-              className="font-body text-sm text-ink-100 hover:text-acid transition-colors duration-200"
+              className="group flex flex-col items-center gap-0.5"
             >
-              {l.label}
+              <span className="font-mono text-xs text-sumi-400 group-hover:text-gold transition-colors">{l.jp}</span>
+              <span className="font-body text-sm text-ash group-hover:text-rice-100 transition-colors tracking-wide">{l.label}</span>
             </a>
           ))}
           <a
             href={personal.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost text-xs py-2 px-4"
+            className="ink-btn text-xs py-1.5 px-4"
           >
-            GitHub ↗
+            GitHub
           </a>
         </nav>
 
-        {/* Mobile hamburger */}
+        {/* Mobile */}
         <button
-          className="md:hidden text-ink-100 p-2"
+          className="md:hidden text-ash p-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <div className={`w-5 h-0.5 bg-current transition-all mb-1 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-          <div className={`w-5 h-0.5 bg-current transition-all mb-1 ${menuOpen ? 'opacity-0' : ''}`} />
-          <div className={`w-5 h-0.5 bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+          <div className={`w-5 h-0.5 bg-current transition-all mb-1.5 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+          <div className={`w-5 h-0.5 bg-current transition-all mb-1.5 ${menuOpen ? 'opacity-0' : ''}`} />
+          <div className={`w-5 h-0.5 bg-current transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
         </button>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-ink-800/95 backdrop-blur-md border-t border-ink-700 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-sumi-800/98 border-t border-sumi-600/40 px-6 py-6 flex flex-col gap-5">
           {navLinks.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              className="font-body text-sm text-ink-100 hover:text-acid transition-colors"
+            <a key={l.label} href={l.href}
+              className="flex items-center gap-3 text-ash hover:text-rice-100 transition-colors"
               onClick={() => setMenuOpen(false)}
             >
-              {l.label}
+              <span className="font-display text-gold text-sm">{l.jp}</span>
+              <span className="font-body text-base">{l.label}</span>
             </a>
           ))}
         </div>
