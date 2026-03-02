@@ -1,194 +1,140 @@
-import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { personal } from '../data';
 
-const quotes = [
-  { text: "The path of mastery is forged in silence.", jp: "道は沈黙の中で鍛えられる" },
-  { text: "Data does not lie. Only those who read it carelessly.", jp: "データは嘘をつかない" },
-  { text: "A single model, perfectly trained, defeats a thousand assumptions.", jp: "完璧なモデルは千の仮定を破る" },
-];
-
 export default function Hero() {
-  const [quoteIdx, setQuoteIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setQuoteIdx(i => (i + 1) % quotes.length), 5000);
-    return () => clearInterval(t);
-  }, []);
-
   return (
-    <section id="top" className="relative min-h-screen flex items-center overflow-hidden">
+    <section id="top" className="relative min-h-screen bg-paper-100 overflow-hidden pt-14">
 
-      {/* Background texture layers */}
-      <div className="absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, #c9a84c 0px, transparent 1px, transparent 60px), repeating-linear-gradient(90deg, #c9a84c 0px, transparent 1px, transparent 60px)',
-        }}
-      />
+      {/* Full page halftone bg */}
+      <div className="absolute inset-0 halftone pointer-events-none" />
 
-      {/* Large ink wash background character */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none"
-        style={{
-          fontSize: 'clamp(200px, 35vw, 500px)',
-          fontFamily: '"Shippori Mincho", serif',
-          fontWeight: 800,
-          color: 'transparent',
-          WebkitTextStroke: '1px rgba(94,80,72,0.12)',
-          lineHeight: 1,
-          letterSpacing: '-0.05em',
-        }}
-      >
-        武
-      </div>
+      {/* Top-left decorative panel lines */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-ink-900" />
+      <div className="absolute top-1 left-0 w-full h-[2px] bg-red-manga opacity-60" />
 
-      {/* Blood splatter accent — top right */}
-      <div className="absolute top-20 right-1/3 w-64 h-64 rounded-full bg-blood/5 blur-[80px] pointer-events-none animate-flicker" />
-      <div className="absolute bottom-1/4 left-10 w-32 h-32 rounded-full bg-blood/4 blur-[60px] pointer-events-none" />
+      {/* Main manga panel grid layout */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 min-h-[calc(100vh-56px)] grid grid-rows-[auto_1fr_auto] py-8 gap-6">
 
-      {/* Vertical JP text — far left */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-6 opacity-30">
-        <span className="jp-accent">データ科学者</span>
-        <div className="w-px h-20 bg-sumi-500" />
-        <span className="jp-accent">統計学</span>
-      </div>
+        {/* ── ROW 1: Chapter banner ── */}
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+          className="panel-red px-5 py-2 flex items-center justify-between"
+        >
+          <span className="font-mono text-xs text-white/80 tracking-[0.3em]">CHAPTER 001</span>
+          <span className="manga-title text-white text-lg">ORIGIN STORY</span>
+          <span className="font-mono text-xs text-white/80 tracking-[0.3em]">DATA SCIENTIST</span>
+        </motion.div>
 
-      {/* Main content — offset left like a manga panel */}
-      <div className="relative max-w-6xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center pt-20">
+        {/* ── ROW 2: Main panels ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
 
-        {/* Left: Text */}
-        <div>
-          {/* Chapter label */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-4 mb-8"
+          {/* BIG name panel — takes 7 cols */}
+          <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-7 panel-thick relative flex flex-col justify-between p-6 sm:p-8 min-h-[320px] lg:min-h-0"
+            style={{ background: '#0a0806' }}
           >
-            <div className="w-8 h-px bg-blood" />
-            <span className="chapter-label">Chapter 01 — Origin</span>
-          </motion.div>
+            {/* Speed lines decoration */}
+            <div className="absolute inset-0 speed-lines opacity-30" />
 
-          {/* Name — big manga-style */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-          >
-            <h1 className="brush-heading text-6xl md:text-7xl lg:text-8xl leading-none mb-2">
-              Rupesh
-            </h1>
-            <h1 className="brush-heading text-6xl md:text-7xl lg:text-8xl leading-none text-gold mb-2">
-              Pandey
-            </h1>
-            <div className="font-display text-sm text-ash tracking-[0.3em] uppercase mb-8">
-              ルペシュ・パンデー
+            {/* Corner accent */}
+            <div className="absolute top-0 right-0 w-16 h-16"
+              style={{ background: '#cc1a1a', clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}
+            />
+
+            <div className="relative z-10">
+              <div className="manga-caption text-paper-300/60 mb-4">// INTRODUCING</div>
+              <h1 className="manga-title-outline text-[clamp(4rem,12vw,8rem)] leading-none mb-2">
+                RUPESH
+              </h1>
+              <h1 className="manga-title text-[clamp(4rem,12vw,8rem)] leading-none text-red-manga mb-6">
+                PANDEY
+              </h1>
+              <p className="font-body text-paper-200 text-base sm:text-lg leading-relaxed max-w-sm italic">
+                "{personal.bio}"
+              </p>
+            </div>
+
+            {/* SFX bottom right */}
+            <div className="relative z-10 flex justify-end mt-6">
+              <span className="sfx-red text-5xl opacity-60">DATA!</span>
             </div>
           </motion.div>
 
-          {/* Role */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="font-body text-lg text-rice-200 italic mb-8 leading-relaxed max-w-sm border-l-2 border-blood/60 pl-4"
-          >
-            {personal.bio}
-          </motion.p>
+          {/* Right column — stacked panels */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="flex flex-wrap gap-4"
-          >
-            <a href="#projects" className="ink-btn-blood font-display text-sm">
-              View My Work
-            </a>
-            <a href={`mailto:${personal.email}`} className="ink-btn font-display text-sm">
-              Get In Touch
-            </a>
-          </motion.div>
-
-          {/* Stats row */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="mt-12 grid grid-cols-4 gap-4 border-t border-sumi-600/40 pt-8"
-          >
-            {[
-              { v: '6+', l: 'Projects' },
-              { v: '8', l: 'Repos' },
-              { v: '1', l: 'Internship' },
-              { v: '6.58', l: 'GPA' },
-            ].map(s => (
-              <div key={s.l} className="text-center">
-                <div className="font-display text-2xl font-bold text-gold">{s.v}</div>
-                <div className="font-mono text-xs text-sumi-400 tracking-widest uppercase mt-1">{s.l}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Right: Floating quote panel — like a manga thought bubble */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:block"
-        >
-          <div className="ink-card panel-border p-8 relative">
-            {/* Corner marks */}
-            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-blood/60" />
-            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-blood/60" />
-            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-blood/60" />
-            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-blood/60" />
-
-            <div className="text-center py-8 px-4">
-              {/* Large decorative kanji */}
-              <div className="font-display text-8xl text-sumi-600 mb-6 leading-none select-none">道</div>
-
-              {/* Rotating quote */}
-              <motion.div
-                key={quoteIdx}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p className="font-body italic text-rice-200 text-lg leading-relaxed mb-4">
-                  "{quotes[quoteIdx].text}"
-                </p>
-                <p className="font-display text-xs text-sumi-400 tracking-widest">
-                  {quotes[quoteIdx].jp}
-                </p>
-              </motion.div>
-
-              {/* Dot indicators */}
-              <div className="flex justify-center gap-2 mt-6">
-                {quotes.map((_, i) => (
-                  <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i === quoteIdx ? 'bg-blood' : 'bg-sumi-600'}`} />
+            {/* Status panel */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+              className="panel-thick p-5 stripe-bg relative"
+            >
+              <div className="manga-caption mb-3">STATUS PANEL</div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { stat: '6+', label: 'PROJECTS' },
+                  { stat: '8', label: 'REPOS' },
+                  { stat: '1', label: 'INTERNSHIP' },
+                  { stat: '6.58', label: 'GPA' },
+                ].map(s => (
+                  <div key={s.label} className="panel p-3 text-center">
+                    <div className="manga-title text-4xl text-red-manga">{s.stat}</div>
+                    <div className="manga-caption text-ink-600 mt-1">{s.label}</div>
+                  </div>
                 ))}
               </div>
-            </div>
-          </div>
+            </motion.div>
 
-          {/* Floating status badge */}
-          <div className="mt-4 flex justify-end">
-            <div className="flex items-center gap-2 bg-sumi-800/80 border border-sumi-600/40 px-4 py-2">
-              <span className="w-2 h-2 rounded-full bg-gold animate-flicker" />
-              <span className="font-mono text-xs text-ash tracking-widest">SEEKING OPPORTUNITIES</span>
-            </div>
+            {/* Quote thought bubble */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
+              className="thought-bubble p-5 flex-1"
+            >
+              <div className="manga-caption mb-2">INNER MONOLOGUE</div>
+              <p className="font-serif text-base text-ink-800 italic leading-relaxed">
+                "The path of mastery is forged through data, one model at a time..."
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-ink-900 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-ink-900/60 inline-block" />
+                <span className="w-1 h-1 rounded-full bg-ink-900/30 inline-block" />
+              </div>
+            </motion.div>
+
+            {/* Location badge */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}
+              className="panel flex items-center justify-between px-4 py-3"
+              style={{ background: '#fde8e8', borderColor: '#cc1a1a' }}
+            >
+              <span className="manga-caption text-red-manga">LOCATION</span>
+              <span className="font-mono text-xs text-ink-800">Vadodara, Gujarat 🇮🇳</span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-manga animate-pulse" />
+                <span className="manga-caption text-red-manga">AVAILABLE</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── ROW 3: CTA bar ── */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
+          className="panel-thick p-4 flex flex-wrap gap-3 items-center justify-between"
+          style={{ background: '#f2f0eb' }}
+        >
+          <div className="flex flex-wrap gap-3">
+            <a href="#projects" className="btn-manga">VIEW MY WORK</a>
+            <a href={`mailto:${personal.email}`} className="btn-manga-outline">GET IN TOUCH</a>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            <a href={personal.github} target="_blank" rel="noopener noreferrer"
+              className="ink-tag hover:bg-ink-900 hover:text-paper-50 transition-colors cursor-pointer"
+            >GitHub ↗</a>
+            <a href={personal.huggingface} target="_blank" rel="noopener noreferrer"
+              className="ink-tag hover:bg-ink-900 hover:text-paper-50 transition-colors cursor-pointer"
+            >HuggingFace ↗</a>
           </div>
         </motion.div>
+
       </div>
 
-      {/* Scroll cue */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-30">
-        <span className="font-mono text-xs tracking-widest text-ash">SCROLL</span>
-        <div className="w-px h-10 bg-ash animate-brush" />
-      </div>
+      {/* Bottom border */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-ink-900" />
     </section>
   );
-}
+

@@ -6,149 +6,229 @@
   html { scroll-behavior: smooth; }
 
   body {
-    @apply bg-sumi-900 text-rice-100 font-body;
-    background-color: #0d0b08;
+    background-color: #fafaf8;
+    color: #0a0806;
+    font-family: 'Kalam', cursive;
+    /* Subtle paper texture */
     background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   }
 
-  ::selection { background: rgba(139,26,26,0.4); color: #faf8f3; }
+  ::selection { background: #cc1a1a; color: #fff; }
 }
 
 @layer components {
-  .brush-heading {
-    @apply font-display font-bold text-rice-50;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.8), -1px -1px 0px rgba(0,0,0,0.4);
-    letter-spacing: -0.02em;
-  }
 
-  .ink-card {
-    background: rgba(22,19,16,0.9);
-    border: 1px solid rgba(94,80,72,0.3);
+  /* ── Panel system ─────────────────────────────── */
+  .panel {
+    background: #ffffff;
+    border: 2.5px solid #0a0806;
     position: relative;
     overflow: hidden;
   }
 
-  .ink-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(201,168,76,0.03) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .ink-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
-  }
-
-  .brush-stroke {
+  .panel-thick {
+    background: #ffffff;
+    border: 4px solid #0a0806;
+    box-shadow: 4px 4px 0 #0a0806;
     position: relative;
+    overflow: hidden;
+  }
+
+  .panel-red {
+    background: #cc1a1a;
+    border: 3px solid #0a0806;
+    box-shadow: 4px 4px 0 #0a0806;
+    color: #fff;
+  }
+
+  /* ── Halftone dot pattern ─────────────────────── */
+  .halftone {
+    background-image: radial-gradient(circle, #0a0806 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: 0.08;
+  }
+
+  .halftone-red {
+    background-image: radial-gradient(circle, #cc1a1a 1px, transparent 1px);
+    background-size: 6px 6px;
+    opacity: 0.12;
+  }
+
+  /* ── Speed lines ──────────────────────────────── */
+  .speed-lines {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 4px,
+      rgba(10,8,6,0.03) 4px,
+      rgba(10,8,6,0.03) 5px
+    );
+  }
+
+  /* ── Manga typography ─────────────────────────── */
+  .manga-title {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: #0a0806;
+    text-shadow: 3px 3px 0 rgba(10,8,6,0.12);
+  }
+
+  .manga-title-outline {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: #ffffff;
+    -webkit-text-stroke: 3px #0a0806;
+    text-shadow: 4px 4px 0 rgba(10,8,6,0.2);
+  }
+
+  .manga-caption {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #5c534a;
+  }
+
+  /* ── SFX text ─────────────────────────────────── */
+  .sfx {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.08em;
+    color: #0a0806;
+    -webkit-text-stroke: 1px #0a0806;
+  }
+
+  .sfx-red {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.08em;
+    color: #cc1a1a;
+    -webkit-text-stroke: 1px #0a0806;
+    text-shadow: 2px 2px 0 rgba(10,8,6,0.2);
+  }
+
+  /* ── Ink tag ──────────────────────────────────── */
+  .ink-tag {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 1px 8px;
+    border: 1.5px solid #0a0806;
+    color: #0a0806;
+    background: transparent;
+    letter-spacing: 0.05em;
+  }
+
+  .ink-tag-fill {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    padding: 1px 8px;
+    background: #0a0806;
+    color: #fafaf8;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Buttons ──────────────────────────────────── */
+  .btn-manga {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem;
+    border: 3px solid #0a0806;
+    background: #0a0806;
+    color: #fafaf8;
+    box-shadow: 3px 3px 0 #cc1a1a;
+    transition: all 0.15s ease;
     display: inline-block;
   }
 
-  .brush-stroke::after {
+  .btn-manga:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 #cc1a1a;
+  }
+
+  .btn-manga:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #cc1a1a;
+  }
+
+  .btn-manga-outline {
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem;
+    border: 3px solid #0a0806;
+    background: transparent;
+    color: #0a0806;
+    box-shadow: 3px 3px 0 #0a0806;
+    transition: all 0.15s ease;
+    display: inline-block;
+  }
+
+  .btn-manga-outline:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 #0a0806;
+    background: #f2f0eb;
+  }
+
+  /* ── Thought bubble ───────────────────────────── */
+  .thought-bubble {
+    background: white;
+    border: 2.5px solid #0a0806;
+    border-radius: 16px;
+    position: relative;
+  }
+
+  .thought-bubble::after {
     content: '';
     position: absolute;
-    bottom: -4px; left: 0; right: 0;
-    height: 3px;
-    background: #8b1a1a;
-    clip-path: polygon(0% 0%, 100% 20%, 98% 100%, 2% 80%);
+    bottom: -18px;
+    left: 30px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 2.5px solid #0a0806;
+    border-radius: 50%;
   }
 
-  .panel-border {
-    border: 2px solid rgba(94,80,72,0.5);
-    box-shadow:
-      inset 0 0 40px rgba(0,0,0,0.5),
-      4px 4px 0 rgba(0,0,0,0.4);
+  /* ── Diagonal stripe section bg ──────────────── */
+  .stripe-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(10,8,6,0.025) 10px,
+      rgba(10,8,6,0.025) 11px
+    );
   }
 
-  .chapter-label {
-    @apply font-mono text-xs tracking-widest uppercase;
-    color: #9e9488;
-    letter-spacing: 0.25em;
+  /* ── Chapter divider ──────────────────────────── */
+  .chapter-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
-  .ink-btn {
-    @apply font-display font-bold relative overflow-hidden;
-    background: transparent;
-    border: 2px solid rgba(201,168,76,0.5);
-    color: #c9a84c;
-    padding: 0.75rem 2rem;
-    transition: all 0.3s ease;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-
-  .ink-btn:hover {
-    background: rgba(201,168,76,0.1);
-    border-color: rgba(201,168,76,0.9);
-    box-shadow: 0 0 20px rgba(201,168,76,0.2);
-  }
-
-  .ink-btn-blood {
-    @apply font-display font-bold;
-    background: #8b1a1a;
-    border: 2px solid #5c1010;
-    color: #faf8f3;
-    padding: 0.75rem 2rem;
-    transition: all 0.3s ease;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-
-  .ink-btn-blood:hover {
-    background: #b52222;
-    box-shadow: 0 0 30px rgba(139,26,26,0.4);
-  }
-
-  .tag-sumi {
-    display: inline-block;
-    padding: 0.2rem 0.6rem;
-    background: rgba(33,29,24,0.9);
-    border: 1px solid rgba(94,80,72,0.5);
-    color: #9e9488;
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
-  }
-
-  /* Vertical JP text decoration */
-  .jp-accent {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    font-family: 'Shippori Mincho', serif;
-    color: rgba(94,80,72,0.4);
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    user-select: none;
+  .chapter-divider::before,
+  .chapter-divider::after {
+    content: '';
+    flex: 1;
+    height: 2.5px;
+    background: #0a0806;
   }
 }
 
-/* Ink splatter decorative element */
-.ink-splatter {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(139,26,26,0.15) 0%, transparent 70%);
-  pointer-events: none;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f2f0eb; }
+::-webkit-scrollbar-thumb { background: #0a0806; }
+::-webkit-scrollbar-thumb:hover { background: #cc1a1a; }
 
-/* Panel crack effect */
-.panel-line {
-  position: absolute;
-  background: rgba(94,80,72,0.2);
-  transform-origin: top left;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0d0b08; }
-::-webkit-scrollbar-thumb { background: #2e2820; }
-::-webkit-scrollbar-thumb:hover { background: #8b1a1a; }
-
-/* Rough edge utility */
-.rough-top {
-  clip-path: polygon(0% 3%, 2% 0%, 5% 2%, 8% 0%, 12% 1%, 20% 0%, 30% 2%, 40% 0%, 50% 1%, 60% 0%, 70% 2%, 80% 0%, 90% 1%, 95% 0%, 100% 2%, 100% 100%, 0% 100%);
+/* Ink border effect on focus */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0a0806 !important;
+  box-shadow: 3px 3px 0 #0a0806;
 }

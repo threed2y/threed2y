@@ -4,71 +4,65 @@ import { ExternalLink, Github, Star } from 'lucide-react';
 export default function ProjectCard({ project, index }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
-      className="ink-card panel-border group relative flex flex-col h-full"
-      style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))' }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
+      className="panel-thick group flex flex-col h-full relative bg-white hover:shadow-[6px_6px_0_#cc1a1a] transition-all duration-200"
     >
-      {/* Top accent line */}
-      {project.featured && (
-        <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-blood to-transparent" />
-      )}
-
-      {/* Panel number — manga style */}
-      <div className="absolute top-4 right-5 font-display text-4xl font-bold select-none"
-        style={{ color: 'rgba(94,80,72,0.2)', WebkitTextStroke: '1px rgba(94,80,72,0.15)' }}
-      >
-        {String(index + 1).padStart(2, '0')}
+      {/* Panel number stamp */}
+      <div className="absolute top-3 right-3 w-8 h-8 bg-ink-900 flex items-center justify-center">
+        <span className="font-mono text-xs text-paper-50">{String(index + 1).padStart(2, '0')}</span>
       </div>
 
-      <div className="p-6 flex flex-col h-full">
-        {/* Chapter marker */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-4 h-px bg-blood/60" />
-          <span className="chapter-label">{project.featured ? 'Featured' : 'Project'}</span>
+      {/* Featured ribbon */}
+      {project.featured && (
+        <div className="absolute top-0 left-0 bg-red-manga px-3 py-0.5">
+          <span className="manga-caption text-white" style={{ color: 'white' }}>FEATURED</span>
         </div>
+      )}
 
+      <div className="p-5 pt-8 flex flex-col h-full">
         {/* Title */}
-        <h3 className="font-display font-bold text-xl text-rice-50 mb-3 group-hover:text-gold transition-colors duration-300 leading-tight">
-          {project.title}
+        <h3 className="manga-title text-2xl text-ink-900 mb-1 leading-tight group-hover:text-red-manga transition-colors pr-8">
+          {project.title.toUpperCase()}
         </h3>
 
+        {/* Ink underline */}
+        <div className="w-12 h-[2.5px] bg-ink-900 group-hover:w-full group-hover:bg-red-manga transition-all duration-300 mb-3" />
+
         {/* Description */}
-        <p className="font-body text-base text-ash leading-relaxed flex-grow mb-5 italic">
+        <p className="font-body text-sm text-ink-600 leading-relaxed flex-grow mb-4 italic">
           {project.description}
         </p>
 
         {/* Stars */}
         {project.stars && (
-          <div className="flex items-center gap-1.5 text-gold/60 mb-4">
-            <Star size={11} />
-            <span className="font-mono text-xs">{project.stars}</span>
+          <div className="flex items-center gap-1.5 mb-3">
+            <Star size={11} className="fill-red-manga stroke-red-manga" />
+            <span className="font-mono text-xs text-ink-600">{project.stars} stars</span>
           </div>
         )}
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-5">
+        <div className="flex flex-wrap gap-1.5 mb-4">
           {project.tags.map(tag => (
-            <span key={tag} className="tag-sumi">{tag}</span>
+            <span key={tag} className="ink-tag">{tag}</span>
           ))}
         </div>
 
         {/* Links */}
-        <div className="flex gap-4 border-t border-sumi-600/30 pt-4 mt-auto">
+        <div className="flex gap-3 pt-3 border-t-[2px] border-ink-900/10 mt-auto">
           <a href={project.github} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-2 font-mono text-xs text-sumi-400 hover:text-gold transition-colors"
+            className="flex items-center gap-1.5 font-mono text-xs text-ink-600 hover:text-ink-900 transition-colors"
           >
-            <Github size={13} />
-            <span>Source</span>
+            <Github size={12} /> CODE
           </a>
           {project.demo && (
             <a href={project.demo} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 font-mono text-xs text-sumi-400 hover:text-blood transition-colors"
+              className="flex items-center gap-1.5 font-mono text-xs text-red-manga hover:text-red-light transition-colors"
             >
-              <ExternalLink size={13} />
-              <span>Live Demo</span>
+              <ExternalLink size={12} /> LIVE DEMO
             </a>
           )}
         </div>

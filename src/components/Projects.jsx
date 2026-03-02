@@ -8,35 +8,35 @@ export default function Projects() {
   const displayed = showAll ? projects : projects.slice(0, 4);
 
   return (
-    <section id="projects" className="py-28 px-6 relative">
-      {/* Background kanji watermark */}
-      <div className="absolute right-8 top-20 select-none pointer-events-none opacity-[0.03]"
-        style={{ fontSize: '20rem', fontFamily: '"Shippori Mincho"', fontWeight: 800, color: '#c9a84c', lineHeight: 1 }}
-      >作</div>
+    <section id="projects" className="py-20 px-4 sm:px-6 bg-paper-200 relative">
+      <div className="absolute inset-0 stripe-bg opacity-50 pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-16">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-px bg-blood" />
-            <span className="chapter-label">Chapter 02 — Works</span>
+      <div className="max-w-6xl mx-auto relative">
+
+        {/* Section header — manga chapter style */}
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
+          <div className="chapter-divider mb-4">
+            <span className="panel-red px-4 py-1.5">
+              <span className="manga-title text-white text-lg">CHAPTER 002</span>
+            </span>
           </div>
-          <h2 className="brush-heading text-5xl md:text-6xl">
-            Selected<br />
-            <span className="text-gold">Projects</span>
-          </h2>
-          <p className="font-display text-xs text-sumi-500 tracking-[0.3em] mt-2">作品集</p>
+          <div className="flex items-end gap-4 flex-wrap">
+            <h2 className="manga-title text-[clamp(3rem,8vw,5rem)] text-ink-900 leading-none">PROJECTS</h2>
+            <span className="sfx text-6xl text-ink-900/10 mb-2">BANG!</span>
+          </div>
+          <div className="manga-caption text-ink-500 mt-1">Selected works — 作品集</div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {displayed.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>
 
         {!showAll && projects.length > 4 && (
-          <div className="text-center mt-12">
-            <button onClick={() => setShowAll(true)} className="ink-btn text-sm">
-              View All Works ({projects.length - 4} more)
+          <div className="text-center mt-10">
+            <button onClick={() => setShowAll(true)} className="btn-manga-outline">
+              SHOW ALL ({projects.length - 4} MORE)
             </button>
           </div>
         )}
