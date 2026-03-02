@@ -1,124 +1,281 @@
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { personal } from '../data';
 
+function useCodeforces() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetch('https://codeforces.com/api/user.info?handles=sleepysaurus')
+      .then(r => r.json())
+      .then(json => { if (json.status === 'OK') setData(json.result[0]); })
+      .catch(() => {});
+  }, []);
+  return data;
+}
+
+function useLeetCode() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetch('https://leetcode-stats-api.herokuapp.com/kurosaki-kun')
+      .then(r => r.json())
+      .then(json => { if (json.status === 'success') setData(json); })
+      .catch(() => {});
+  }, []);
+  return data;
+}
+
+function AnimatedCount({ target }) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!target) return;
+    const num = parseInt(target);
+    if (isNaN(num)) return;
+    let current = 0;
+    const step = Math.ceil(num / 45);
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= num) { setCount(num); clearInterval(timer); }
+      else setCount(current);
+    }, 25);
+    return () => clearInterval(timer);
+  }, [target]);
+  return <>{count}</>;
+}
+
+const CF_COLORS = {
+  newbie: '#999', pupil: '#3b3', specialist: '#1aa', expert: '#55f',
+  'candidate master': '#a0a', master: '#f80', 'international master': '#f80',
+  grandmaster: '#f22', 'international grandmaster': '#f22', 'legendary grandmaster': '#f22',
+};
+
 export default function Hero() {
+  const cf = useCodeforces();
+  const lc = useLeetCode();
+  const cfColor = CF_COLORS[cf?.rank?.toLowerCase()] || '#8a7d72';
+
   return (
-    <section id="top" className="relative min-h-screen bg-paper-100 overflow-hidden pt-14">
+    <section id="top" style={{
+      background: '#f5f2ed',
+      minHeight: '100vh',
+      paddingTop: '56px',
+      position: 'relative',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
+      {/* Subtle halftone */}
+      <div className="halftone" style={{ position: 'absolute', inset: 0, opacity: 0.035, pointerEvents: 'none' }} />
+      {/* Top ink lines */}
+      <div style={{ position: 'absolute', top: 56, left: 0, right: 0, height: 4, background: '#1a1612', zIndex: 1 }} />
+      <div style={{ position: 'absolute', top: 60, left: 0, right: 0, height: 2, background: '#cc1a1a', opacity: 0.8, zIndex: 1 }} />
 
-      <div className="halftone absolute inset-0 pointer-events-none" />
-      <div className="absolute top-14 left-0 right-0 h-1 bg-ink-900" />
-      <div className="absolute top-[60px] left-0 right-0 h-0.5 bg-red-manga opacity-60" />
-
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6 grid grid-rows-[auto_1fr_auto] gap-5 min-h-[calc(100vh-56px)]">
+      {/* Inner wrapper fills remaining height */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '72rem',
+        margin: '0 auto',
+        width: '100%',
+        padding: '0.875rem 1.5rem',
+        gap: '0.875rem',
+        boxSizing: 'border-box',
+      }}>
 
         {/* Chapter banner */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-          className="panel-red flex items-center justify-between px-5 py-2"
+        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+          className="panel-red"
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.5rem 1.25rem', flexShrink: 0 }}
         >
-          <span className="font-mono text-xs text-white/70 tracking-widest hidden sm:block">CHAPTER 001</span>
-          <span className="manga-title text-white text-lg">ORIGIN STORY</span>
-          <span className="font-mono text-xs text-white/70 tracking-widest hidden sm:block">DATA SCIENTIST</span>
+          <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.25em' }}>CHAPTER 001</span>
+          <span className="manga-title" style={{ color: 'white', fontSize: '1.15rem' }}>ORIGIN STORY</span>
+          <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.25em' }}>DATA SCIENTIST</span>
         </motion.div>
 
-        {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+        {/* Main 2-col grid — grows to fill */}
+        <div style={{
+          flex: 1,
+          display: 'grid',
+          gridTemplateColumns: '7fr 5fr',
+          gap: '0.875rem',
+          minHeight: 0,
+        }}>
 
-          {/* Name panel */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.1 }}
-            className="lg:col-span-7 panel-thick relative flex flex-col justify-between p-6 sm:p-8 min-h-72"
-            style={{ background: '#0a0806' }}
+          {/* LEFT — name panel, warm dark not harsh black */}
+          <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45, delay: 0.1 }}
+            className="panel-thick"
+            style={{
+              background: '#2a231b',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              padding: '1.75rem 2rem',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
           >
-            <div className="speed-lines absolute inset-0 opacity-40" />
-            <div
-              className="absolute top-0 right-0 w-16 h-16"
-              style={{ background: '#cc1a1a', clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }}
-            />
-            <div className="relative z-10">
-              <div className="manga-caption mb-4" style={{ color: 'rgba(232,228,220,0.5)' }}>// INTRODUCING</div>
-              <h1 className="manga-title-outline" style={{ fontSize: 'clamp(4rem, 11vw, 7.5rem)' }}>RUPESH</h1>
-              <h1 className="manga-title text-red-manga" style={{ fontSize: 'clamp(4rem, 11vw, 7.5rem)' }}>PANDEY</h1>
-              <p className="font-body text-paper-200 text-base leading-relaxed max-w-sm italic mt-4">
+            <div className="speed-lines" style={{ position: 'absolute', inset: 0, opacity: 0.25 }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, width: 72, height: 72, background: '#cc1a1a', clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(210,195,175,0.45)', marginBottom: '0.75rem' }}>
+                // INTRODUCING
+              </div>
+              <h1 style={{
+                fontFamily: "'Bangers', cursive",
+                fontSize: 'clamp(3.5rem, 9vw, 7rem)',
+                lineHeight: 0.92,
+                color: '#f5f2ed',
+                WebkitTextStroke: '2px #f5f2ed',
+                textShadow: '4px 4px 0 rgba(0,0,0,0.35)',
+                letterSpacing: '0.04em',
+              }}>RUPESH</h1>
+              <h1 style={{
+                fontFamily: "'Bangers', cursive",
+                fontSize: 'clamp(3.5rem, 9vw, 7rem)',
+                lineHeight: 0.92,
+                color: '#cc1a1a',
+                textShadow: '3px 3px 0 rgba(0,0,0,0.4)',
+                letterSpacing: '0.04em',
+                marginBottom: '1.25rem',
+              }}>PANDEY</h1>
+              <p style={{ fontFamily: "'Kalam', cursive", fontStyle: 'italic', color: '#c0b09a', lineHeight: 1.65, fontSize: '0.95rem', maxWidth: '340px' }}>
                 "{personal.bio}"
               </p>
             </div>
-            <div className="relative z-10 flex justify-end mt-4">
-              <span className="sfx-red text-5xl opacity-50">DATA!</span>
+
+            <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+              <span className="sfx-red" style={{ fontSize: '3.5rem', opacity: 0.35 }}>DATA!</span>
             </div>
           </motion.div>
 
-          {/* Right column */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          {/* RIGHT column — fills height, no empty space */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem' }}>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-              className="panel-thick stripe-bg p-5"
+            {/* Stats row — 4 boxes */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.18 }}
+              className="panel-thick stripe-bg"
+              style={{ padding: '0.875rem', flexShrink: 0 }}
             >
-              <div className="manga-caption mb-3">STATUS PANEL</div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { stat: '6+', label: 'PROJECTS' },
-                  { stat: '8',  label: 'REPOS' },
-                  { stat: '1',  label: 'INTERNSHIP' },
-                  { stat: '6.58', label: 'GPA' },
-                ].map(s => (
-                  <div key={s.label} className="panel p-3 text-center">
-                    <div className="manga-title text-4xl text-red-manga">{s.stat}</div>
-                    <div className="manga-caption mt-1">{s.label}</div>
+              <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8a7d72', marginBottom: '0.6rem' }}>STATUS PANEL</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '0.5rem' }}>
+                {[['6+','PROJECTS'],['8','REPOS'],['1','INTERN'],['6.58','GPA']].map(([v, l]) => (
+                  <div key={l} className="panel" style={{ textAlign: 'center', padding: '0.5rem 0.25rem', background: '#faf8f3' }}>
+                    <div className="manga-title" style={{ fontSize: '1.6rem', color: '#cc1a1a', lineHeight: 1 }}>{v}</div>
+                    <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.52rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#8a7d72', marginTop: '0.2rem' }}>{l}</div>
                   </div>
                 ))}
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
-              className="thought-bubble p-5 flex-1"
+            {/* CP Stats — Codeforces + LeetCode side by side */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.26 }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.875rem', flexShrink: 0 }}
             >
-              <div className="manga-caption mb-2">INNER MONOLOGUE</div>
-              <p className="font-serif text-base text-ink-500 italic leading-relaxed">
-                "The path of mastery is forged through data, one model at a time..."
-              </p>
-              <div className="flex items-center gap-2 mt-3">
-                <span className="w-2 h-2 rounded-full bg-ink-900 inline-block" />
-                <span className="w-1.5 h-1.5 rounded-full bg-ink-500 inline-block" />
-                <span className="w-1 h-1 rounded-full bg-ink-300 inline-block" />
+              {/* Codeforces */}
+              <div className="panel-thick" style={{ background: '#fff', overflow: 'hidden' }}>
+                <div style={{ background: '#1e3a5f', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span className="manga-title" style={{ color: 'white', fontSize: '0.8rem' }}>CODEFORCES</span>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.55rem', color: 'rgba(255,255,255,0.45)' }}>CF</span>
+                </div>
+                <div style={{ padding: '0.75rem' }}>
+                  <div className="manga-title" style={{ fontSize: '2.4rem', lineHeight: 1, color: cf?.rating ? cfColor : '#c8bfb4' }}>
+                    {cf?.rating ? <AnimatedCount target={cf.rating} /> : <span style={{ fontSize: '1.2rem', color: '#c0b09a' }}>Loading…</span>}
+                  </div>
+                  <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'capitalize', color: cfColor, marginTop: '0.2rem' }}>
+                    {cf?.rank || '—'}
+                  </div>
+                  <a href="https://codeforces.com/profile/sleepysaurus" target="_blank" rel="noopener noreferrer"
+                    className="ink-tag" style={{ fontSize: '0.55rem', marginTop: '0.5rem', display: 'inline-block', textDecoration: 'none' }}>
+                    sleepysaurus ↗
+                  </a>
+                </div>
+              </div>
+
+              {/* LeetCode */}
+              <div className="panel-thick" style={{ background: '#fff', overflow: 'hidden' }}>
+                <div style={{ background: '#f89820', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span className="manga-title" style={{ color: 'white', fontSize: '0.8rem' }}>LEETCODE</span>
+                  <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.55rem', color: 'rgba(255,255,255,0.55)' }}>LC</span>
+                </div>
+                <div style={{ padding: '0.75rem' }}>
+                  <div className="manga-title" style={{ fontSize: '2.4rem', lineHeight: 1, color: lc ? '#f89820' : '#c8bfb4' }}>
+                    {lc ? <AnimatedCount target={lc.totalSolved} /> : <span style={{ fontSize: '1.2rem', color: '#c0b09a' }}>Loading…</span>}
+                  </div>
+                  <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.1em', color: '#8a7d72', marginTop: '0.2rem' }}>
+                    {lc ? `${lc.easySolved}E · ${lc.mediumSolved}M · ${lc.hardSolved}H` : 'problems solved'}
+                  </div>
+                  <a href="https://leetcode.com/u/kurosaki-kun/" target="_blank" rel="noopener noreferrer"
+                    className="ink-tag" style={{ fontSize: '0.55rem', marginTop: '0.5rem', display: 'inline-block', textDecoration: 'none' }}>
+                    kurosaki-kun ↗
+                  </a>
+                </div>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 }}
-              className="panel flex items-center justify-between px-4 py-3"
-              style={{ background: '#fde8e8', borderColor: '#cc1a1a' }}
+            {/* Thought bubble — fills remaining vertical space */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.33 }}
+              className="thought-bubble"
+              style={{ flex: 1, padding: '1rem', background: '#fffdf9', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
             >
-              <span className="manga-caption" style={{ color: '#cc1a1a' }}>LOCATION</span>
-              <span className="font-mono text-xs text-ink-600">Vadodara, Gujarat 🇮🇳</span>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-red-manga animate-pulse" />
-                <span className="manga-caption" style={{ color: '#cc1a1a' }}>OPEN</span>
+              <div>
+                <div style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8a7d72', marginBottom: '0.5rem' }}>INNER MONOLOGUE</div>
+                <p style={{ fontFamily: "'Shippori Mincho', serif", fontStyle: 'italic', fontSize: '0.9rem', color: '#5c534a', lineHeight: 1.75 }}>
+                  "The path of mastery is forged through data, one model at a time..."
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', marginTop: '0.75rem' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#1a1612', display: 'inline-block' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#8a7d72', display: 'inline-block' }} />
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#c8bfb4', display: 'inline-block' }} />
               </div>
             </motion.div>
+
+            {/* Location bar */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}
+              className="panel"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.6rem 1rem', background: '#fff5f5', borderColor: '#cc1a1a', flexShrink: 0 }}
+            >
+              <span style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#cc1a1a' }}>LOCATION</span>
+              <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.7rem', color: '#3d3530' }}>Vadodara, Gujarat 🇮🇳</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#cc1a1a', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+                <span style={{ fontFamily: "'Shippori Mincho', serif", fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#cc1a1a' }}>OPEN TO WORK</span>
+              </div>
+            </motion.div>
+
           </div>
         </div>
 
         {/* CTA bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
-          className="panel-thick flex flex-wrap gap-3 items-center justify-between p-4"
-          style={{ background: '#f2f0eb' }}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+          className="panel-thick"
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between', padding: '0.875rem 1.25rem', background: '#eae6df', flexShrink: 0 }}
         >
-          <div className="flex flex-wrap gap-3">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             <a href="#projects" className="btn-manga">VIEW MY WORK</a>
             <a href={`mailto:${personal.email}`} className="btn-manga-outline">GET IN TOUCH</a>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <a href={personal.github} target="_blank" rel="noopener noreferrer" className="ink-tag">GitHub ↗</a>
-            <a href={personal.huggingface} target="_blank" rel="noopener noreferrer" className="ink-tag">HuggingFace ↗</a>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <a href={personal.github} target="_blank" rel="noopener noreferrer" className="ink-tag" style={{ textDecoration: 'none' }}>GitHub ↗</a>
+            <a href={personal.huggingface} target="_blank" rel="noopener noreferrer" className="ink-tag" style={{ textDecoration: 'none' }}>HuggingFace ↗</a>
           </div>
         </motion.div>
+
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-ink-900" />
+      {/* Bottom border */}
+      <div style={{ height: 4, background: '#1a1612', flexShrink: 0 }} />
+
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.35; }
+        }
+        @media (max-width: 900px) {
+          .hero-main-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }
