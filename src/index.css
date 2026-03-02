@@ -9,17 +9,16 @@
     background-color: #fafaf8;
     color: #0a0806;
     font-family: 'Kalam', cursive;
-    /* Subtle paper texture */
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   }
 
-  ::selection { background: #cc1a1a; color: #fff; }
+  ::selection {
+    background: #cc1a1a;
+    color: #fff;
+  }
 }
 
 @layer components {
 
-  /* ── Panel system ─────────────────────────────── */
   .panel {
     background: #ffffff;
     border: 2.5px solid #0a0806;
@@ -42,37 +41,44 @@
     color: #fff;
   }
 
-  /* ── Halftone dot pattern ─────────────────────── */
   .halftone {
     background-image: radial-gradient(circle, #0a0806 1px, transparent 1px);
     background-size: 8px 8px;
-    opacity: 0.08;
+    opacity: 0.07;
   }
 
   .halftone-red {
     background-image: radial-gradient(circle, #cc1a1a 1px, transparent 1px);
     background-size: 6px 6px;
-    opacity: 0.12;
+    opacity: 0.1;
   }
 
-  /* ── Speed lines ──────────────────────────────── */
+  .stripe-bg {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(10, 8, 6, 0.025) 10px,
+      rgba(10, 8, 6, 0.025) 11px
+    );
+  }
+
   .speed-lines {
     background: repeating-linear-gradient(
       90deg,
       transparent,
       transparent 4px,
-      rgba(10,8,6,0.03) 4px,
-      rgba(10,8,6,0.03) 5px
+      rgba(255, 255, 255, 0.04) 4px,
+      rgba(255, 255, 255, 0.04) 5px
     );
   }
 
-  /* ── Manga typography ─────────────────────────── */
   .manga-title {
     font-family: 'Bangers', cursive;
     letter-spacing: 0.04em;
     line-height: 0.95;
     color: #0a0806;
-    text-shadow: 3px 3px 0 rgba(10,8,6,0.12);
+    text-shadow: 3px 3px 0 rgba(10, 8, 6, 0.12);
   }
 
   .manga-title-outline {
@@ -81,7 +87,7 @@
     line-height: 0.95;
     color: #ffffff;
     -webkit-text-stroke: 3px #0a0806;
-    text-shadow: 4px 4px 0 rgba(10,8,6,0.2);
+    text-shadow: 4px 4px 0 rgba(10, 8, 6, 0.2);
   }
 
   .manga-caption {
@@ -92,7 +98,6 @@
     color: #5c534a;
   }
 
-  /* ── SFX text ─────────────────────────────────── */
   .sfx {
     font-family: 'Bangers', cursive;
     letter-spacing: 0.08em;
@@ -105,10 +110,9 @@
     letter-spacing: 0.08em;
     color: #cc1a1a;
     -webkit-text-stroke: 1px #0a0806;
-    text-shadow: 2px 2px 0 rgba(10,8,6,0.2);
+    text-shadow: 2px 2px 0 rgba(10, 8, 6, 0.2);
   }
 
-  /* ── Ink tag ──────────────────────────────────── */
   .ink-tag {
     display: inline-block;
     font-family: 'Share Tech Mono', monospace;
@@ -130,7 +134,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* ── Buttons ──────────────────────────────────── */
   .btn-manga {
     font-family: 'Bangers', cursive;
     letter-spacing: 0.08em;
@@ -142,6 +145,8 @@
     box-shadow: 3px 3px 0 #cc1a1a;
     transition: all 0.15s ease;
     display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .btn-manga:hover {
@@ -165,6 +170,8 @@
     box-shadow: 3px 3px 0 #0a0806;
     transition: all 0.15s ease;
     display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .btn-manga-outline:hover {
@@ -173,7 +180,6 @@
     background: #f2f0eb;
   }
 
-  /* ── Thought bubble ───────────────────────────── */
   .thought-bubble {
     background: white;
     border: 2.5px solid #0a0806;
@@ -193,18 +199,6 @@
     border-radius: 50%;
   }
 
-  /* ── Diagonal stripe section bg ──────────────── */
-  .stripe-bg {
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 10px,
-      rgba(10,8,6,0.025) 10px,
-      rgba(10,8,6,0.025) 11px
-    );
-  }
-
-  /* ── Chapter divider ──────────────────────────── */
   .chapter-divider {
     display: flex;
     align-items: center;
@@ -220,13 +214,11 @@
   }
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f2f0eb; }
 ::-webkit-scrollbar-thumb { background: #0a0806; }
 ::-webkit-scrollbar-thumb:hover { background: #cc1a1a; }
 
-/* Ink border effect on focus */
 input:focus, textarea:focus {
   outline: none;
   border-color: #0a0806 !important;
