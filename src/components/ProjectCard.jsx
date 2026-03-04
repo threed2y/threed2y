@@ -4,57 +4,59 @@ import { ExternalLink, Github, Star } from 'lucide-react';
 export default function ProjectCard({ project, index }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="panel-thick group flex flex-col h-full bg-white hover:shadow-[6px_6px_0_#cc1a1a] transition-all duration-200"
+      initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
+      viewport={{ once:true, margin:'-40px' }} transition={{ duration:.38, delay: index*.07 }}
+      style={{ background:'#fff', border:'4px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', display:'flex', flexDirection:'column', position:'relative', transition:'box-shadow .15s,transform .15s', overflow:'hidden' }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow='6px 6px 0 #cc1a1a'; e.currentTarget.style.transform='translate(-1px,-1px)'; }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow='4px 4px 0 #1a1612'; e.currentTarget.style.transform='none'; }}
     >
-      <div className="absolute top-3 right-3 w-8 h-8 bg-ink-900 flex items-center justify-center z-10">
-        <span className="font-mono text-xs text-paper-50">{String(index + 1).padStart(2, '0')}</span>
+      {/* number stamp */}
+      <div style={{ position:'absolute', top:'.75rem', right:'.75rem', width:30, height:30, background:'#1a1612', display:'flex', alignItems:'center', justifyContent:'center', zIndex:2 }}>
+        <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#f5f1ea' }}>{String(index+1).padStart(2,'0')}</span>
       </div>
 
       {project.featured && (
-        <div className="absolute top-0 left-0 bg-red-manga px-3 py-0.5 z-10">
-          <span className="manga-caption" style={{ color: 'white' }}>FEATURED</span>
+        <div style={{ position:'absolute', top:0, left:0, background:'#cc1a1a', padding:'1px 10px', zIndex:2 }}>
+          <span style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'.58rem', letterSpacing:'.18em', textTransform:'uppercase', color:'white' }}>FEATURED</span>
         </div>
       )}
 
-      <div className="p-5 pt-8 flex flex-col h-full">
-        <h3 className="manga-title text-2xl text-ink-900 mb-1 leading-tight group-hover:text-red-manga transition-colors pr-8">
+      <div style={{ padding:'1.1rem', paddingTop: project.featured ? '1.75rem' : '1.1rem', display:'flex', flexDirection:'column', flex:1 }}>
+        <h3 style={{ fontFamily:"'Bangers',cursive", fontSize:'1.35rem', color:'#1a1612', letterSpacing:'.04em', lineHeight:1.1, paddingRight:'2.5rem', margin:'0 0 .3rem' }}>
           {project.title.toUpperCase()}
         </h3>
-
-        <div className="w-12 h-0.5 bg-ink-900 group-hover:w-full group-hover:bg-red-manga transition-all duration-300 mb-3" style={{ height: '2.5px' }} />
-
-        <p className="font-body text-sm text-ink-500 leading-relaxed flex-grow mb-4 italic">
+        <div style={{ width:'3rem', height:'2.5px', background:'#1a1612', marginBottom:'.7rem', transition:'width .3s,background .3s' }}
+          ref={el => el && el.closest('[data-hovered]') && (el.style.width='100%')}
+        />
+        <p style={{ fontFamily:"'Kalam',cursive", fontSize:'.88rem', fontStyle:'italic', color:'#5c534a', lineHeight:1.6, flex:1, marginBottom:'1rem', margin:'0 0 .9rem' }}>
           {project.description}
         </p>
-
         {project.stars && (
-          <div className="flex items-center gap-1.5 mb-3">
-            <Star size={11} className="fill-red-manga stroke-red-manga" />
-            <span className="font-mono text-xs text-ink-400">{project.stars} stars</span>
+          <div style={{ display:'flex', alignItems:'center', gap:'.4rem', marginBottom:'.6rem' }}>
+            <Star size={11} fill="#cc1a1a" stroke="#cc1a1a"/>
+            <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#8a7d72' }}>{project.stars} stars</span>
           </div>
         )}
-
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        <div style={{ display:'flex', flexWrap:'wrap', gap:'.35rem', marginBottom:'.85rem' }}>
           {project.tags.map(tag => (
-            <span key={tag} className="ink-tag">{tag}</span>
+            <span key={tag} style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.6rem', padding:'1px 7px', border:'1.5px solid #1a1612', color:'#1a1612', letterSpacing:'.04em' }}>{tag}</span>
           ))}
         </div>
-
-        <div className="flex gap-4 pt-3 mt-auto" style={{ borderTop: '2px solid rgba(10,8,6,0.1)' }}>
+        <div style={{ display:'flex', gap:'1rem', paddingTop:'.7rem', borderTop:'2px solid rgba(10,8,6,.08)', marginTop:'auto' }}>
           <a href={project.github} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 font-mono text-xs text-ink-400 hover:text-ink-900 transition-colors no-underline"
+            style={{ display:'flex', alignItems:'center', gap:'.4rem', fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#8a7d72', textDecoration:'none', transition:'color .15s' }}
+            onMouseEnter={e => e.currentTarget.style.color='#1a1612'}
+            onMouseLeave={e => e.currentTarget.style.color='#8a7d72'}
           >
-            <Github size={12} /> CODE
+            <Github size={12}/> CODE
           </a>
           {project.demo && (
             <a href={project.demo} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 font-mono text-xs text-red-manga hover:text-red-light transition-colors no-underline"
+              style={{ display:'flex', alignItems:'center', gap:'.4rem', fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#cc1a1a', textDecoration:'none', transition:'color .15s' }}
+              onMouseEnter={e => e.currentTarget.style.color='#e83030'}
+              onMouseLeave={e => e.currentTarget.style.color='#cc1a1a'}
             >
-              <ExternalLink size={12} /> LIVE DEMO
+              <ExternalLink size={12}/> LIVE DEMO
             </a>
           )}
         </div>
