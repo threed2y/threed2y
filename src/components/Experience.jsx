@@ -1,86 +1,77 @@
 import { motion } from 'framer-motion';
 import { experience, education } from '../data';
 
-const TYPE_STYLE = {
-  Internship: { bg: '#0a0806', label: 'INTERN' },
-  Leadership: { bg: '#cc1a1a', label: 'LEADER' },
-  Athletics:  { bg: '#3d3530', label: 'ATHLETE' },
-  Education:  { bg: '#3d3530', label: 'STUDY' },
+const TYPE_CFG = {
+  Internship: { bg:'#1a1612', label:'INTERN' },
+  Leadership: { bg:'#cc1a1a', label:'LEADER' },
+  Athletics:  { bg:'#3d3530', label:'SPORT' },
+  Education:  { bg:'#3d3530', label:'STUDY' },
 };
 
 export default function Experience() {
   const all = [
     ...experience,
     ...education.map(e => ({
-      role: e.degree,
-      company: e.institution,
-      period: e.period,
-      type: 'Education',
-      location: e.location || 'Vadodara',
-      highlights: e.gpa
-        ? ['GPA: ' + e.gpa, ...(e.courses || []).slice(0, 3)]
-        : (e.courses || []).slice(0, 3),
+      role: e.degree, company: e.institution, period: e.period, type:'Education',
+      highlights: e.gpa ? ['GPA: ' + e.gpa, ...(e.courses||[]).slice(0,3)] : (e.courses||[]).slice(0,3),
     })),
   ];
 
   return (
-    <section id="experience" className="py-20 px-4 sm:px-6 relative overflow-hidden" style={{ background: '#f2f0eb' }}>
-      <div className="halftone absolute inset-0 opacity-25 pointer-events-none" />
+    <section id="experience" style={{ background:'#eae5dc', padding:'5rem 1.5rem', position:'relative' }}>
+      <div style={{
+        position:'absolute', inset:0, pointerEvents:'none',
+        backgroundImage:'radial-gradient(circle, #1a1612 1px, transparent 1px)', backgroundSize:'9px 9px', opacity:.025,
+      }}/>
+      <div style={{ maxWidth:'56rem', margin:'0 auto', position:'relative' }}>
 
-      <div className="max-w-4xl mx-auto relative">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
-          <div className="chapter-divider mb-4">
-            <span className="panel-red px-4 py-1.5">
-              <span className="manga-title text-white text-lg">CHAPTER 004</span>
-            </span>
+        <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ marginBottom:'2.5rem' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1rem' }}>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
+            <div style={{ background:'#cc1a1a', border:'3px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', padding:'.4rem 1.25rem' }}>
+              <span style={{ fontFamily:"'Bangers',cursive", color:'white', fontSize:'1rem', letterSpacing:'.05em' }}>CHAPTER 004</span>
+            </div>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
           </div>
-          <div className="flex items-end flex-wrap gap-2">
-            <h2 className="manga-title leading-none" style={{ fontSize: 'clamp(2.8rem, 7vw, 4.5rem)' }}>THE PATH</h2>
-            <span className="sfx mb-1" style={{ fontSize: '4rem', opacity: 0.08 }}>DASH!</span>
+          <div style={{ display:'flex', alignItems:'flex-end', flexWrap:'wrap', gap:'.5rem' }}>
+            <h2 style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.8rem,7vw,4.5rem)', lineHeight:.95, color:'#1a1612', letterSpacing:'.04em', textShadow:'3px 3px 0 rgba(10,8,6,.1)', margin:0 }}>THE PATH</h2>
+            <span style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.5rem,6vw,4rem)', color:'rgba(10,8,6,.06)', letterSpacing:'.06em', lineHeight:1 }}>DASH!</span>
           </div>
-          <div className="manga-caption mt-1">Experience & education — 経験</div>
+          <div style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'.62rem', letterSpacing:'.2em', textTransform:'uppercase', color:'#8a7d72', marginTop:'.3rem' }}>Experience & education — 経験</div>
         </motion.div>
 
-        <div className="relative">
-          <div className="absolute left-5 top-0 bottom-0 bg-ink-900" style={{ width: '2.5px' }} />
+        <div style={{ position:'relative' }}>
+          {/* timeline spine */}
+          <div style={{ position:'absolute', left:19, top:0, bottom:0, width:'2.5px', background:'#1a1612' }}/>
 
-          <div className="space-y-6">
+          <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             {all.map((item, i) => {
-              const style = TYPE_STYLE[item.type] || TYPE_STYLE.Education;
+              const cfg = TYPE_CFG[item.type] || TYPE_CFG.Education;
               return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="relative pl-14"
+                <motion.div key={i}
+                  initial={{ opacity:0, x:-18 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ delay: i*.07 }}
+                  style={{ position:'relative', paddingLeft:'3.5rem' }}
                 >
-                  <div
-                    className="absolute left-0 w-10 h-10 border-2 border-ink-900 flex items-center justify-center"
-                    style={{ background: style.bg }}
-                  >
-                    <span className="font-mono text-center leading-tight" style={{ fontSize: '0.55rem', color: 'white' }}>
-                      {style.label}
-                    </span>
+                  <div style={{ position:'absolute', left:0, top:0, width:40, height:40, border:'2.5px solid #1a1612', background:cfg.bg, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.5rem', color:'white', textAlign:'center', lineHeight:1.3 }}>{cfg.label}</span>
                   </div>
-
-                  <div className="panel-thick bg-white hover:shadow-[5px_5px_0_#cc1a1a] transition-all duration-200 p-4">
-                    <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
-                      <h3 className="manga-title text-lg text-ink-900 leading-tight">
-                        {item.role.toUpperCase()}
-                      </h3>
-                      <span className="ink-tag-fill">{item.type.toUpperCase()}</span>
+                  <div style={{ background:'#fff', border:'4px solid #1a1612', padding:'1.1rem', transition:'box-shadow .15s,transform .15s' }}
+                    onMouseEnter={e => { e.currentTarget.style.boxShadow='5px 5px 0 #cc1a1a'; e.currentTarget.style.transform='translate(-1px,-1px)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.boxShadow='none'; e.currentTarget.style.transform='none'; }}
+                  >
+                    <div style={{ display:'flex', alignItems:'start', justifyContent:'space-between', flexWrap:'wrap', gap:'.4rem', marginBottom:'.25rem' }}>
+                      <h3 style={{ fontFamily:"'Bangers',cursive", fontSize:'1.15rem', color:'#1a1612', letterSpacing:'.04em', margin:0 }}>{item.role.toUpperCase()}</h3>
+                      <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.58rem', padding:'1px 7px', background:'#1a1612', color:'#f5f1ea', letterSpacing:'.05em' }}>{item.type.toUpperCase()}</span>
                     </div>
-                    <div className="flex flex-wrap gap-3 mb-3">
-                      <span className="font-body text-sm italic text-red-manga">{item.company}</span>
-                      <span className="text-ink-400">·</span>
-                      <span className="font-mono text-xs text-ink-400">{item.period}</span>
+                    <div style={{ display:'flex', flexWrap:'wrap', gap:'.5rem', alignItems:'center', marginBottom:'.75rem' }}>
+                      <span style={{ fontFamily:"'Kalam',cursive", fontSize:'.9rem', fontStyle:'italic', color:'#cc1a1a' }}>{item.company}</span>
+                      <span style={{ color:'#c8bfb4' }}>·</span>
+                      <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#8a7d72' }}>{item.period}</span>
                     </div>
-                    <ul className="space-y-1.5 pt-2" style={{ borderTop: '1.5px solid rgba(10,8,6,0.1)' }}>
+                    <ul style={{ listStyle:'none', margin:0, padding:0, borderTop:'1.5px solid rgba(10,8,6,.08)', paddingTop:'.6rem', display:'flex', flexDirection:'column', gap:'.35rem' }}>
                       {item.highlights.map((h, j) => (
-                        <li key={j} className="flex gap-2 font-body text-sm text-ink-500 leading-relaxed">
-                          <span className="text-red-manga font-bold flex-shrink-0">▶</span>
+                        <li key={j} style={{ display:'flex', gap:'.5rem', fontFamily:"'Kalam',cursive", fontSize:'.85rem', color:'#5c534a', lineHeight:1.55 }}>
+                          <span style={{ color:'#cc1a1a', fontWeight:700, flexShrink:0 }}>▶</span>
                           {h}
                         </li>
                       ))}
