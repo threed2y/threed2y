@@ -8,37 +8,41 @@ export default function Projects() {
   const displayed = showAll ? projects : projects.slice(0, 4);
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 relative" style={{ background: '#f2f0eb' }}>
-      <div className="stripe-bg absolute inset-0 opacity-50 pointer-events-none" />
+    <section id="projects" style={{ background:'#eae5dc', padding:'5rem 1.5rem', position:'relative' }}>
+      <div style={{
+        position:'absolute', inset:0, pointerEvents:'none',
+        backgroundImage:'repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(10,8,6,.02) 10px,rgba(10,8,6,.02) 11px)',
+      }}/>
+      <div style={{ maxWidth:'72rem', margin:'0 auto', position:'relative' }}>
 
-      <div className="max-w-6xl mx-auto relative">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
-          <div className="chapter-divider mb-4">
-            <span className="panel-red px-4 py-1.5">
-              <span className="manga-title text-white text-lg">CHAPTER 002</span>
-            </span>
+        <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ marginBottom:'2.5rem' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1rem' }}>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
+            <div style={{ background:'#cc1a1a', border:'3px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', padding:'.4rem 1.25rem' }}>
+              <span style={{ fontFamily:"'Bangers',cursive", color:'white', fontSize:'1rem', letterSpacing:'.05em' }}>CHAPTER 002</span>
+            </div>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
           </div>
-          <div className="flex items-end flex-wrap gap-2">
-            <h2 className="manga-title leading-none" style={{ fontSize: 'clamp(2.8rem, 7vw, 4.5rem)' }}>PROJECTS</h2>
-            <span className="sfx mb-1" style={{ fontSize: '4rem', opacity: 0.08 }}>BANG!</span>
+          <div style={{ display:'flex', alignItems:'flex-end', flexWrap:'wrap', gap:'.5rem' }}>
+            <h2 style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.8rem,7vw,4.5rem)', lineHeight:.95, color:'#1a1612', letterSpacing:'.04em', textShadow:'3px 3px 0 rgba(10,8,6,.1)', margin:0 }}>PROJECTS</h2>
+            <span style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.5rem,6vw,4rem)', color:'rgba(10,8,6,.06)', letterSpacing:'.06em', lineHeight:1 }}>BANG!</span>
           </div>
-          <div className="manga-caption mt-1">Selected works — 作品集</div>
+          <div style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'.62rem', letterSpacing:'.2em', textTransform:'uppercase', color:'#8a7d72', marginTop:'.3rem' }}>Selected works — 作品集</div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {displayed.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
-          ))}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:'1.25rem' }} className="proj-grid">
+          {displayed.map((project, i) => <ProjectCard key={project.title} project={project} index={i} />)}
         </div>
 
         {!showAll && projects.length > 4 && (
-          <div className="text-center mt-10">
+          <div style={{ textAlign:'center', marginTop:'2.5rem' }}>
             <button onClick={() => setShowAll(true)} className="btn-manga-outline">
               SHOW ALL ({projects.length - 4} MORE)
             </button>
           </div>
         )}
       </div>
+      <style>{`@media(max-width:600px){.proj-grid{grid-template-columns:1fr !important;}}`}</style>
     </section>
   );
 }
