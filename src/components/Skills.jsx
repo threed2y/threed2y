@@ -6,47 +6,52 @@ const SFXS  = ['CRUNCH!', 'ZAP!', 'BOOM!', 'CLICK!'];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20 px-4 sm:px-6 relative overflow-hidden" style={{ background: '#fafaf8' }}>
-      <div className="halftone-red absolute right-0 top-0 w-72 h-72 rounded-full pointer-events-none"
-        style={{ transform: 'translate(30%, -30%)' }}
-      />
+    <section id="skills" style={{ background:'#f5f1ea', padding:'5rem 1.5rem', position:'relative', overflow:'hidden' }}>
+      {/* red halftone blob */}
+      <div style={{
+        position:'absolute', top:'-80px', right:'-80px', width:300, height:300, borderRadius:'50%',
+        backgroundImage:'radial-gradient(circle, #cc1a1a 1px, transparent 1px)', backgroundSize:'6px 6px', opacity:.07, pointerEvents:'none',
+      }}/>
+      <div style={{ maxWidth:'72rem', margin:'0 auto', position:'relative' }}>
 
-      <div className="max-w-6xl mx-auto relative">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-10">
-          <div className="chapter-divider mb-4">
-            <span className="panel-red px-4 py-1.5">
-              <span className="manga-title text-white text-lg">CHAPTER 003</span>
-            </span>
+        <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} style={{ marginBottom:'2.5rem' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1rem' }}>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
+            <div style={{ background:'#cc1a1a', border:'3px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', padding:'.4rem 1.25rem' }}>
+              <span style={{ fontFamily:"'Bangers',cursive", color:'white', fontSize:'1rem', letterSpacing:'.05em' }}>CHAPTER 003</span>
+            </div>
+            <div style={{ flex:1, height:'2.5px', background:'#1a1612' }}/>
           </div>
-          <div className="flex items-end flex-wrap gap-2">
-            <h2 className="manga-title leading-none" style={{ fontSize: 'clamp(2.8rem, 7vw, 4.5rem)' }}>ARSENAL</h2>
-            <span className="sfx mb-1" style={{ fontSize: '4rem', opacity: 0.08 }}>SLASH!</span>
+          <div style={{ display:'flex', alignItems:'flex-end', flexWrap:'wrap', gap:'.5rem' }}>
+            <h2 style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.8rem,7vw,4.5rem)', lineHeight:.95, color:'#1a1612', letterSpacing:'.04em', textShadow:'3px 3px 0 rgba(10,8,6,.1)', margin:0 }}>ARSENAL</h2>
+            <span style={{ fontFamily:"'Bangers',cursive", fontSize:'clamp(2.5rem,6vw,4rem)', color:'rgba(10,8,6,.06)', letterSpacing:'.06em', lineHeight:1 }}>SLASH!</span>
           </div>
-          <div className="manga-caption mt-1">Technical skills — 技術スキル</div>
+          <div style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'.62rem', letterSpacing:'.2em', textTransform:'uppercase', color:'#8a7d72', marginTop:'.3rem' }}>Technical skills — 技術スキル</div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1rem' }} className="skills-grid">
           {skills.map((skill, i) => (
-            <motion.div
-              key={skill.category}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="panel-thick bg-white group hover:shadow-[6px_6px_0_#cc1a1a] transition-all duration-200 overflow-hidden"
+            <motion.div key={skill.category}
+              initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay: i*.1 }}
+              style={{ background:'#fff', border:'4px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', overflow:'hidden', transition:'box-shadow .15s,transform .15s', cursor:'default' }}
+              onMouseEnter={e => { e.currentTarget.style.boxShadow='6px 6px 0 #cc1a1a'; e.currentTarget.style.transform='translate(-1px,-1px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.boxShadow='4px 4px 0 #1a1612'; e.currentTarget.style.transform='none'; }}
             >
-              <div className="bg-ink-900 p-3 flex items-center justify-between group-hover:bg-red-manga transition-colors duration-200">
-                <span className="font-serif text-3xl font-bold text-white">{KANJI[i]}</span>
-                <span className="manga-title text-sm opacity-30" style={{ color: 'white' }}>{SFXS[i]}</span>
+              <div style={{ background:'#1a1612', padding:'.65rem .9rem', display:'flex', alignItems:'center', justifyContent:'space-between', transition:'background .2s' }}
+                onMouseEnter={e => e.currentTarget.style.background='#cc1a1a'}
+                onMouseLeave={e => e.currentTarget.style.background='#1a1612'}
+              >
+                <span style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'2rem', fontWeight:700, color:'white' }}>{KANJI[i]}</span>
+                <span style={{ fontFamily:"'Bangers',cursive", fontSize:'.75rem', color:'rgba(255,255,255,.25)', letterSpacing:'.08em' }}>{SFXS[i]}</span>
               </div>
-              <div className="p-4">
-                <div className="manga-title text-sm text-ink-900 mb-1">{skill.category.toUpperCase()}</div>
-                <div className="mb-3" style={{ width: '2rem', height: '2px', background: '#cc1a1a' }} />
-                <ul className="space-y-2">
+              <div style={{ padding:'.9rem' }}>
+                <div style={{ fontFamily:"'Bangers',cursive", fontSize:'.82rem', color:'#1a1612', letterSpacing:'.04em', marginBottom:'.25rem' }}>{skill.category.toUpperCase()}</div>
+                <div style={{ width:'2rem', height:'2px', background:'#cc1a1a', marginBottom:'.65rem' }}/>
+                <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:'.35rem' }}>
                   {skill.items.map(item => (
-                    <li key={item} className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-ink-900 flex-shrink-0 group-hover:bg-red-manga transition-colors" />
-                      <span className="font-body text-sm text-ink-500">{item}</span>
+                    <li key={item} style={{ display:'flex', alignItems:'center', gap:'.45rem' }}>
+                      <span style={{ width:5, height:5, background:'#1a1612', flexShrink:0, display:'inline-block' }}/>
+                      <span style={{ fontFamily:"'Kalam',cursive", fontSize:'.82rem', color:'#5c534a' }}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -55,6 +60,7 @@ export default function Skills() {
           ))}
         </div>
       </div>
+      <style>{`@media(max-width:900px){.skills-grid{grid-template-columns:repeat(2,1fr) !important;}}@media(max-width:480px){.skills-grid{grid-template-columns:1fr !important;}}`}</style>
     </section>
   );
 }
