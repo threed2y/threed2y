@@ -2,99 +2,97 @@ import { useState, useEffect } from 'react';
 import { personal } from '../data';
 
 const NAV = [
-  { label: 'Projects',   href: '#projects' },
-  { label: 'Skills',     href: '#skills' },
-  { label: 'Experience', href: '#experience' },
+  { label: 'Case Files', href: '#projects' },
+  { label: 'Arsenal',    href: '#skills' },
+  { label: 'Record',     href: '#experience' },
   { label: 'Contact',    href: '#contact' },
 ];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled]   = useState(false);
+  const [open,     setOpen]       = useState(false);
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 30);
+    const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', h);
     return () => window.removeEventListener('scroll', h);
   }, []);
 
-  const bar = {
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-    background: scrolled ? 'rgba(245,241,234,0.97)' : 'rgba(245,241,234,0.85)',
-    backdropFilter: 'blur(6px)',
-    borderBottom: scrolled ? '3px solid #1a1612' : '3px solid transparent',
-    transition: 'all .25s ease',
-  };
-
   return (
-    <header style={bar}>
-      <div style={{ maxWidth:'72rem', margin:'0 auto', padding:'0 1.5rem', height:56, display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+    <header style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      background: scrolled ? 'rgba(10,10,10,0.97)' : 'transparent',
+      borderBottom: scrolled ? '1px solid #2e2e2e' : '1px solid transparent',
+      backdropFilter: scrolled ? 'blur(8px)' : 'none',
+      transition: 'all 0.3s ease',
+    }}>
+      <div style={{ maxWidth: '72rem', margin: '0 auto', padding: '0 1.5rem', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
         {/* Logo */}
-        <a href="#top" style={{ display:'flex', alignItems:'center', gap:'.6rem', textDecoration:'none' }}>
-          <div style={{ width:30, height:30, background:'#1a1612', border:'2px solid #1a1612', display:'flex', alignItems:'center', justifyContent:'center' }}
-            onMouseEnter={e => e.currentTarget.style.background='#cc1a1a'}
-            onMouseLeave={e => e.currentTarget.style.background='#1a1612'}
-          >
-            <span style={{ fontFamily:"'Bangers',cursive", color:'#f5f1ea', fontSize:'1rem' }}>R</span>
+        <a href="#top" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: 32, height: 32, border: '1px solid #c41e1e',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 0 10px rgba(196,30,30,0.3)',
+          }}>
+            <span style={{ fontFamily: "'Special Elite', cursive", color: '#c41e1e', fontSize: '1rem' }}>R</span>
           </div>
-          <span style={{ fontFamily:"'Bangers',cursive", fontSize:'1.25rem', color:'#1a1612', letterSpacing:'.05em' }}>
-            RUPESH<span style={{ color:'#cc1a1a' }}>.</span>
-          </span>
+          <div>
+            <div style={{ fontFamily: "'Special Elite', cursive", color: '#ede9e0', fontSize: '0.9rem', letterSpacing: '0.12em', lineHeight: 1 }}>RUPESH PANDEY</div>
+            <div style={{ fontFamily: "'Share Tech Mono', monospace", color: '#888', fontSize: '0.52rem', letterSpacing: '0.2em', lineHeight: 1.4 }}>DATA DETECTIVE</div>
+          </div>
         </a>
 
         {/* Desktop nav */}
-        <nav style={{ display:'flex', alignItems:'center', gap:'.2rem' }} className="desktop-nav">
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '0.1rem' }} className="hdr-nav">
           {NAV.map(l => (
             <a key={l.label} href={l.href} style={{
-              fontFamily:"'Share Tech Mono',monospace", fontSize:'.68rem', padding:'.35rem .8rem',
-              color:'#5c534a', textDecoration:'none', letterSpacing:'.12em',
-              border:'1px solid transparent', transition:'all .18s',
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: '0.65rem', letterSpacing: '0.15em',
+              color: '#aaa', textDecoration: 'none',
+              padding: '0.4rem 0.9rem',
+              transition: 'color 0.2s',
+              border: '1px solid transparent',
             }}
-              onMouseEnter={e => { e.currentTarget.style.color='#1a1612'; e.currentTarget.style.borderColor='#1a1612'; e.currentTarget.style.background='#eae5dc'; }}
-              onMouseLeave={e => { e.currentTarget.style.color='#5c534a'; e.currentTarget.style.borderColor='transparent'; e.currentTarget.style.background='transparent'; }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#e8e4dc'; e.currentTarget.style.borderColor = '#2e2e2e'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#7a7a7a'; e.currentTarget.style.borderColor = 'transparent'; }}
             >
               {l.label.toUpperCase()}
             </a>
           ))}
-          <a href={personal.github} target="_blank" rel="noopener noreferrer" className="btn-manga" style={{ marginLeft:'.6rem', padding:'.35rem 1rem', fontSize:'.8rem' }}>
-            GITHUB
-          </a>
+          <a href={personal.github} target="_blank" rel="noopener noreferrer"
+            className="btn-noir" style={{ marginLeft: '0.75rem', padding: '0.35rem 1rem', fontSize: '0.65rem' }}
+          >GITHUB</a>
         </nav>
 
         {/* Mobile burger */}
-        <button style={{ background:'none', border:'2px solid #1a1612', padding:'.4rem .5rem', cursor:'pointer', display:'none' }}
-          className="mobile-burger" onClick={() => setOpen(!open)} aria-label="menu"
+        <button onClick={() => setOpen(!open)} className="hdr-burger"
+          style={{ background: 'none', border: '1px solid #404040', padding: '0.4rem 0.5rem', cursor: 'crosshair', display: 'none' }}
         >
-          <div style={{ width:18, height:2, background:'#1a1612', marginBottom:4, transition:'all .2s', transform: open ? 'rotate(45deg) translate(4px,6px)' : 'none' }}/>
-          <div style={{ width:18, height:2, background:'#1a1612', marginBottom:4, transition:'all .2s', opacity: open ? 0 : 1 }}/>
-          <div style={{ width:18, height:2, background:'#1a1612', transition:'all .2s', transform: open ? 'rotate(-45deg) translate(4px,-6px)' : 'none' }}/>
+          {[0,1,2].map(i => (
+            <div key={i} style={{ width: 18, height: 1, background: '#aaa', marginBottom: i < 2 ? 4 : 0,
+              transition: 'all 0.2s',
+              transform: open && i === 0 ? 'rotate(45deg) translate(3px, 5px)' : open && i === 2 ? 'rotate(-45deg) translate(3px, -5px)' : 'none',
+              opacity: open && i === 1 ? 0 : 1,
+            }}/>
+          ))}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {open && (
-        <div style={{ background:'#f5f1ea', borderTop:'3px solid #1a1612', padding:'1rem 1.5rem', display:'flex', flexDirection:'column', gap:'.25rem' }}>
+        <div style={{ background: '#0a0a0a', borderTop: '1px solid #2e2e2e', padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           {NAV.map(l => (
             <a key={l.label} href={l.href} onClick={() => setOpen(false)} style={{
-              fontFamily:"'Share Tech Mono',monospace", fontSize:'.8rem', padding:'.6rem .75rem',
-              color:'#3d3530', textDecoration:'none', letterSpacing:'.1em',
-              borderBottom:'1px solid rgba(10,8,6,.08)',
-            }}>
-              {l.label.toUpperCase()}
-            </a>
+              fontFamily: "'Share Tech Mono', monospace", fontSize: '0.75rem',
+              letterSpacing: '0.15em', color: '#aaa', textDecoration: 'none',
+              padding: '0.6rem 0', borderBottom: '1px solid #1a1a1a',
+            }}>{l.label.toUpperCase()}</a>
           ))}
-          <a href={personal.github} target="_blank" rel="noopener noreferrer" className="btn-manga" style={{ marginTop:'.75rem', textAlign:'center', fontSize:'.85rem' }}>
-            GITHUB ↗
-          </a>
         </div>
       )}
 
       <style>{`
-        @media (max-width:760px) {
-          .desktop-nav { display: none !important; }
-          .mobile-burger { display: block !important; }
-        }
+        @media (max-width: 760px) { .hdr-nav { display: none !important; } .hdr-burger { display: block !important; } }
       `}</style>
     </header>
   );
