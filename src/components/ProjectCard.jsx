@@ -1,65 +1,64 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Star } from 'lucide-react';
+import { ExternalLink, Github } from 'lucide-react';
 
 export default function ProjectCard({ project, index }) {
   return (
     <motion.div
-      initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
-      viewport={{ once:true, margin:'-40px' }} transition={{ duration:.38, delay: index*.07 }}
-      style={{ background:'#fff', border:'4px solid #1a1612', boxShadow:'4px 4px 0 #1a1612', display:'flex', flexDirection:'column', position:'relative', transition:'box-shadow .15s,transform .15s', overflow:'hidden' }}
-      onMouseEnter={e => { e.currentTarget.style.boxShadow='6px 6px 0 #cc1a1a'; e.currentTarget.style.transform='translate(-1px,-1px)'; }}
-      onMouseLeave={e => { e.currentTarget.style.boxShadow='4px 4px 0 #1a1612'; e.currentTarget.style.transform='none'; }}
+      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+      viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.08 }}
+      style={{ background: '#0e0e0e', padding: '1.5rem', position: 'relative', overflow: 'hidden', transition: 'background 0.2s', cursor: 'default' }}
+      onMouseEnter={e => e.currentTarget.style.background = '#111'}
+      onMouseLeave={e => e.currentTarget.style.background = '#0d0d0d'}
     >
-      {/* number stamp */}
-      <div style={{ position:'absolute', top:'.75rem', right:'.75rem', width:30, height:30, background:'#1a1612', display:'flex', alignItems:'center', justifyContent:'center', zIndex:2 }}>
-        <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#f5f1ea' }}>{String(index+1).padStart(2,'0')}</span>
+      {/* top accent line — lights up red on hover */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: project.featured ? 'linear-gradient(90deg,#c41e1e,transparent)' : '#1a1a1a', transition: 'background 0.3s' }}/>
+
+      {/* case number */}
+      <div style={{ position: 'absolute', top: '1rem', right: '1rem', fontFamily: "'Share Tech Mono', monospace", fontSize: '0.6rem', color: '#555', letterSpacing: '0.1em' }}>
+        #{String(index + 1).padStart(3, '0')}
       </div>
 
       {project.featured && (
-        <div style={{ position:'absolute', top:0, left:0, background:'#cc1a1a', padding:'1px 10px', zIndex:2 }}>
-          <span style={{ fontFamily:"'Shippori Mincho',serif", fontSize:'.58rem', letterSpacing:'.18em', textTransform:'uppercase', color:'white' }}>FEATURED</span>
+        <div style={{ marginBottom: '0.6rem' }}>
+          <span style={{ fontFamily: "'Share Tech Mono', monospace", fontSize: '0.52rem', color: '#c41e1e', letterSpacing: '0.2em', border: '1px solid #c41e1e', padding: '1px 8px' }}>
+            PRIORITY CASE
+          </span>
         </div>
       )}
 
-      <div style={{ padding:'1.1rem', paddingTop: project.featured ? '1.75rem' : '1.1rem', display:'flex', flexDirection:'column', flex:1 }}>
-        <h3 style={{ fontFamily:"'Bangers',cursive", fontSize:'1.35rem', color:'#1a1612', letterSpacing:'.04em', lineHeight:1.1, paddingRight:'2.5rem', margin:'0 0 .3rem' }}>
-          {project.title.toUpperCase()}
-        </h3>
-        <div style={{ width:'3rem', height:'2.5px', background:'#1a1612', marginBottom:'.7rem', transition:'width .3s,background .3s' }}
-          ref={el => el && el.closest('[data-hovered]') && (el.style.width='100%')}
-        />
-        <p style={{ fontFamily:"'Kalam',cursive", fontSize:'.88rem', fontStyle:'italic', color:'#5c534a', lineHeight:1.6, flex:1, marginBottom:'1rem', margin:'0 0 .9rem' }}>
-          {project.description}
-        </p>
-        {project.stars && (
-          <div style={{ display:'flex', alignItems:'center', gap:'.4rem', marginBottom:'.6rem' }}>
-            <Star size={11} fill="#cc1a1a" stroke="#cc1a1a"/>
-            <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#8a7d72' }}>{project.stars} stars</span>
-          </div>
-        )}
-        <div style={{ display:'flex', flexWrap:'wrap', gap:'.35rem', marginBottom:'.85rem' }}>
-          {project.tags.map(tag => (
-            <span key={tag} style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.6rem', padding:'1px 7px', border:'1.5px solid #1a1612', color:'#1a1612', letterSpacing:'.04em' }}>{tag}</span>
-          ))}
-        </div>
-        <div style={{ display:'flex', gap:'1rem', paddingTop:'.7rem', borderTop:'2px solid rgba(10,8,6,.08)', marginTop:'auto' }}>
-          <a href={project.github} target="_blank" rel="noopener noreferrer"
-            style={{ display:'flex', alignItems:'center', gap:'.4rem', fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#8a7d72', textDecoration:'none', transition:'color .15s' }}
-            onMouseEnter={e => e.currentTarget.style.color='#1a1612'}
-            onMouseLeave={e => e.currentTarget.style.color='#8a7d72'}
+      <h3 style={{ fontFamily: "'Special Elite', cursive", fontSize: '1.2rem', color: '#ede9e0', letterSpacing: '0.04em', margin: '0 0 0.5rem', lineHeight: 1.2, paddingRight: '2rem' }}>
+        {project.title}
+      </h3>
+
+      <div style={{ width: '2rem', height: '1px', background: '#c41e1e', marginBottom: '0.75rem' }}/>
+
+      <p style={{ fontFamily: "'Libre Baskerville', serif", fontStyle: 'italic', fontSize: '0.82rem', color: '#aaa', lineHeight: 1.7, margin: '0 0 1rem' }}>
+        {project.description}
+      </p>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '1rem' }}>
+        {project.tags.map(tag => (
+          <span key={tag} className="noir-tag">{tag}</span>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', gap: '1.25rem', paddingTop: '0.75rem', borderTop: '1px solid #1a1a1a' }}>
+        <a href={project.github} target="_blank" rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontFamily: "'Share Tech Mono', monospace", fontSize: '0.6rem', color: '#888', textDecoration: 'none', letterSpacing: '0.1em', transition: 'color 0.2s' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#aaa'}
+          onMouseLeave={e => e.currentTarget.style.color = '#4a4a4a'}
+        >
+          <Github size={11}/> EVIDENCE
+        </a>
+        {project.demo && (
+          <a href={project.demo} target="_blank" rel="noopener noreferrer"
+            style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontFamily: "'Share Tech Mono', monospace", fontSize: '0.6rem', color: '#c41e1e', textDecoration: 'none', letterSpacing: '0.1em', transition: 'color 0.2s' }}
+            onMouseEnter={e => e.currentTarget.style.color = '#e83030'}
+            onMouseLeave={e => e.currentTarget.style.color = '#c41e1e'}
           >
-            <Github size={12}/> CODE
+            <ExternalLink size={11}/> LIVE SCENE
           </a>
-          {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer"
-              style={{ display:'flex', alignItems:'center', gap:'.4rem', fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', color:'#cc1a1a', textDecoration:'none', transition:'color .15s' }}
-              onMouseEnter={e => e.currentTarget.style.color='#e83030'}
-              onMouseLeave={e => e.currentTarget.style.color='#cc1a1a'}
-            >
-              <ExternalLink size={12}/> LIVE DEMO
-            </a>
-          )}
-        </div>
+        )}
       </div>
     </motion.div>
   );
