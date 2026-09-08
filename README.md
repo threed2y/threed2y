@@ -1,1 +1,1 @@
-https://count.getloli.com/@:threed2y?theme=moebooru
+![:threed2y](https://count.getloli.com/@:threed2y)
