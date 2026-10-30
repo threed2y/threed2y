@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rupesh Pandey, data science portfolio</title>
+<meta name="description" content="Rupesh Pandey, M.Sc. Statistics student at MSU Baroda. Python, statistics and spatial analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-alt: #1c2128;
+  --fg: #e6edf3;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --butter: #f0c674;
+  --rule: #21262d;
+  --border: #30363d;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: dark;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 0.98rem/1.65 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+header, nav, main, footer, hr {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+header {
+  padding-top: 3.5rem;
+  padding-bottom: 0.5rem;
+}
+
+h1, h2, h3, nav, .mono, th, .cmd, .tools {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 0.45rem;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 1rem;
+  font-weight: 700;
+  color: var(--butter);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 0.98rem;
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+p {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.1rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.25rem;
+  font-size: 0.88rem;
+  margin: 1rem auto 1.5rem;
+}
+
+nav a {
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+
+nav a:hover {
+  color: var(--butter);
+  text-decoration: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2rem auto;
+  padding: 0;
+}
+
+.note {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--butter);
+  border-radius: 6px;
+  padding: 0.85rem 1.1rem;
+  margin: 1.5rem 0 2rem;
+  font-size: 0.94rem;
+}
+
+.note::before {
+  content: "✦ ";
+  color: var(--butter);
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+section {
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0.5rem 0 0.85rem;
+  padding-left: 1.25rem;
+  max-width: 68ch;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+li::marker {
+  color: var(--muted);
+}
+
+.meta {
+  color: var(--muted);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.82rem;
+  margin: 0 0 0.65rem;
+}
+
+.tools {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0.65rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--rule);
+}
+
+.scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+tr:last-child th,
+tr:last-child td {
+  border-bottom: none;
+}
+
+th {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--butter);
+  white-space: nowrap;
+  background: var(--panel-alt);
+  border-right: 1px solid var(--rule);
+}
+
+.cmd {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  overflow-x: auto;
+  margin: 0 0 0.65rem;
+  max-width: 68ch;
+}
+
+.cmd span {
+  color: var(--butter);
+  margin-right: 0.65ch;
+  user-select: none;
+}
+
+footer {
+  margin-top: 0;
+  padding-top: 0.5rem;
+  padding-bottom: 3.5rem;
+  color: var(--muted);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.84rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rupesh Pandey</h1>
+  <p class="lead">M.Sc. Statistics student at MSU Baroda. Python, statistics and spatial analysis. Halol / Vadodara, Gujarat.</p>
+</header>
+
+<nav aria-label="Sections">
+  <a href="#about">about</a>
+  <a href="#projects">projects</a>
+  <a href="#skills">skills</a>
+  <a href="#experience">experience</a>
+  <a href="#education">education</a>
+  <a href="#contact">contact</a>
+</nav>
+
+<hr>
+
+<main>
+  <p class="note">Looking for a full-time data science internship. The best place to start is the <a href="#thesis">Vadodara thesis project</a>.</p>
+
+  <section id="about">
+    <h2>about</h2>
+    <p>I’m in the final year of my M.Sc. in Statistics. I mostly work in Python: cleaning messy data, testing ideas statistically, and explaining the results with charts and short write-ups.</p>
+    <p>My thesis maps how unevenly access to healthcare, schools and transport is spread across Vadodara’s wards, and I published it as an open dashboard.</p>
+  </section>
+
+  <hr>
+
+  <section id="projects">
+    <h2>projects</h2>
+
+    <div class="card">
+      <h3 id="thesis">Urban Inequality in Vadodara</h3>
+      <p class="meta">Thesis project, April 2026</p>
+      <ul>
+        <li>Built a 0–100 Urban Opportunity Index for each ward, combining access to healthcare, schools, roads and buses with flood exposure. Travel times came from OpenStreetMap road networks and Vadodara Smart City bus data.</li>
+        <li>Measured how unevenly opportunity is spread using Moran’s I, LISA cluster maps, Gini and Lorenz curves and a Kolm–Pollak equality-adjusted score, then added Bayesian spatial models (BYM2/ICAR).</li>
+        <li>Cleaned and merged all inputs into reproducible CSV and GeoPackage files, and published choropleth maps with an interactive dashboard.</li>
+      </ul>
+      <p><a href="https://threed2y.github.io/URBAN-INEQUALITY-IN-BARODA" rel="noopener">Open the dashboard</a></p>
+      <p class="tools">Python, GeoPandas, OSMnx, libpysal, PyMC, Folium, QGIS, R</p>
+    </div>
+
+    <div class="card">
+      <h3>Box-Office Prediction of Hindi Cinema</h3>
+      <p class="meta">April 2025</p>
+      <ul>
+        <li>Combined IMDb data with a survey I ran myself to predict how Hindi films perform at the box office.</li>
+        <li>The model reached 74% accuracy on a held-out test set, and charts show which factors mattered most.</li>
+      </ul>
+      <p class="tools">Python, pandas, NumPy, scikit-learn, Matplotlib, Seaborn</p>
+    </div>
+
+    <div class="card">
+      <h3>GOIES</h3>
+      <p class="meta">India Innovates 2026, finalist</p>
+      <ul>
+        <li>Built a local pipeline that turns articles, PDFs and news feeds into a knowledge graph, using an LLM to extract entities and fuzzy matching to remove duplicates.</li>
+      </ul>
+      <p class="tools">Python, FastAPI, Ollama, NetworkX</p>
+    </div>
+
+    <div class="card">
+      <h3>RailRakshak-AI (backend)</h3>
+      <p class="meta">January 2026</p>
+      <ul>
+        <li>Built the backend of a real-time system that detects people and animals on railway tracks and raises alarms when they enter the danger zone. Published the YOLOv8-format dataset on <a href="https://huggingface.co/sleepysaurus" rel="noopener">Hugging Face</a>.</li>
+      </ul>
+      <p class="tools">Python, OpenCV, Hugging Face, Streamlit</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="skills">
+    <h2>skills</h2>
+    <div class="scroll">
+      <table>
+        <tbody>
+          <tr><th scope="row">python and analysis</th><td>Python (pandas, NumPy, Matplotlib, Seaborn, scikit-learn), R, SQL, Bash</td></tr>
+          <tr><th scope="row">data handling</th><td>Cleaning, validation and integrity checks, merging multi-source data, Excel, PostgreSQL, CSV and GeoPackage</td></tr>
+          <tr><th scope="row">statistics</th><td>Descriptive statistics, hypothesis testing, inferential methods, regression, time series, spatial autocorrelation, Bayesian modelling (PyMC)</td></tr>
+          <tr><th scope="row">visualisation</th><td>Matplotlib, Seaborn, Folium, Streamlit, Excel dashboards, written summaries</td></tr>
+          <tr><th scope="row">machine learning</th><td>Feature engineering, predictive modelling, exploratory data analysis</td></tr>
+          <tr><th scope="row">tools</th><td>Git, GitHub, Docker, FastAPI, Hugging Face, Linux</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="experience">
+    <h2>experience</h2>
+    <div class="card">
+      <h3>Data Intern, Lexmi Electrical Works</h3>
+      <p class="meta">September – December 2024</p>
+      <ul>
+        <li>Collected data from several web sources, then cleaned and merged it into one consistent dataset the team could reuse.</li>
+        <li>Built Excel dashboards to track revenue and other key figures in one place.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Activities</h3>
+      <ul>
+        <li>Founded the Departmental Statistics Association at MSU Baroda and ran a 3-day university data event with 70+ participants.</li>
+        <li>Organised the Statistics Mini Olympiad 2026 and designed its five-round format.</li>
+        <li>Captained the team to 1st place in university-level tournaments.</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="education">
+    <h2>education</h2>
+    <div class="scroll">
+      <table>
+        <tbody>
+          <tr><th scope="row">M.Sc. Statistics</th><td>The Maharaja Sayajirao University of Baroda</td><td>expected May 2027</td></tr>
+          <tr><th scope="row">B.Sc. Statistics</th><td>The Maharaja Sayajirao University of Baroda</td><td>May 2025</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="contact">
+    <h2>contact</h2>
+    <p class="cmd"><span>$</span>mail <a href="mailto:rupeshpandey037@gmail.com">rupeshpandey037@gmail.com</a></p>
+    <p class="cmd"><span>$</span>call <a href="tel:+919974267631">+91 9974267631</a></p>
+    <p>
+      <a href="https://linkedin.com/in/rupesh-pandey-716126364" rel="noopener">LinkedIn</a> ·
+      <a href="https://github.com/threed2y" rel="noopener">GitHub</a> ·
+      <a href="https://huggingface.co/sleepysaurus" rel="noopener">Hugging Face</a>
+    </p>
+  </section>
+</main>
+
+<hr>
+
+<footer>Rupesh Pandey, Halol / Vadodara, Gujarat</footer>
+</body>
+</html>
